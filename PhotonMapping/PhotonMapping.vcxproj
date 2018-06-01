@@ -139,16 +139,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bmp.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="light.h" />
     <ClInclude Include="photonmap.h" />
+    <ClInclude Include="photontracer.h" />
+    <ClInclude Include="primitive.h" />
+    <ClInclude Include="scene.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bmp.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="common.cpp" />
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="photonmap.cpp" />
+    <ClCompile Include="primitive.cpp" />
     <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

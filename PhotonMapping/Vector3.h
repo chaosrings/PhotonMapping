@@ -2,9 +2,7 @@
 #define VECTOR3_H
 
 #include<sstream>
-
-extern const float EPS;
-extern const float PI;
+#include "common.h"
 
 class Vector3 {
 public:
@@ -20,8 +18,8 @@ public:
 	friend Vector3 operator * (const Vector3&, const Vector3&); //cross product
 	friend Vector3& operator += (Vector3&, const Vector3&);
 	friend Vector3& operator -= (Vector3&, const Vector3&);
-	friend Vector3& operator *= (Vector3&, const float&);
-	friend Vector3& operator /= (Vector3&, const float&);
+	friend Vector3& operator *= (Vector3&,  float);
+	friend Vector3& operator /= (Vector3&,  float);
 	friend Vector3& operator *= (Vector3&, const Vector3&);
 	friend Vector3 operator - (const Vector3&);
 	float Dot(const Vector3&);

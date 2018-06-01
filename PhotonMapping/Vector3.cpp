@@ -4,8 +4,6 @@
 #include<cstdlib>
 #include<random>
 #include <time.h>
-std::default_random_engine e(time(nullptr));
-std::uniform_real_distribution<float> u(0, 1);
 
 
 

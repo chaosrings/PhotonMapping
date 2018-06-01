@@ -56,7 +56,7 @@ void  PhotonMap::LocatePhotons(KDTreeNode* t,Vector3& pos , float maxDist2,std::
 	else if (pos.GetCoord(splitPlane) > t->photon.pos.GetCoord(splitPlane))
 		LocatePhotons(t->right, pos, maxDist2, result);
 	//从孩子结点回溯后，判断t到pos的距离。
-	double curDist2 = pos.Distance2(t->photon.pos);   
+	float curDist2 = pos.Distance2(t->photon.pos);   
 	/*如果当前结点的距离比maxDist大，那么当前结点没有查找的孩子(如果pos.splitCoord>t->photon.splitCoord)
 	显然距离不可能比maxDist小*/
 	if (curDist2 > maxDist2)  
