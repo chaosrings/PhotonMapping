@@ -67,7 +67,7 @@ void  PhotonMap::LocatePhotons(KDTreeNode* t,Vector3& pos , float maxDist2,std::
 		nextSearch = t->right;
 	LocatePhotons(nextSearch, pos, maxDist2, result);
 }
-Color PhotonMap::GetIrradiance(Vector3& pos, Vector3& normal, float maxDist, int n)
+Color PhotonMap::GetIrradiance(Vector3& pos, Vector3& normal, float maxDist)
 {
 	Color ret;
 	vector<Photon> result;
@@ -80,6 +80,6 @@ Color PhotonMap::GetIrradiance(Vector3& pos, Vector3& normal, float maxDist, int
 		if (normal.Dot(result[i].dir) < 0)
 			ret += result[i].power;
 	}
-	ret = ret*(4 / (emitPhotons*maxDist*maxDist));
+	ret /=(PI*maxDist*maxDist*emitPhotons);
 	return ret;
 }

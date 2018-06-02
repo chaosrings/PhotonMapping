@@ -4,4 +4,6 @@ const float PI= 3.1415926535897932384626;
 std::default_random_engine e(time(nullptr));
 std::uniform_real_distribution<float> u(0, 1);
 
-#define RandomRealZeroOne() (u(e))
+const int maxEmitPhoton = 1000000;
+const int maxPhotonTracingDepth = 10;
+const int maxRayTracingDepth = 10;

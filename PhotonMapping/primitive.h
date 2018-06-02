@@ -35,16 +35,24 @@ public:
 	virtual ~Primitive() {};
 
 	Material& GetMaterial() { return material; }
-	virtual Crash Collide(Vector3& origin, Vector3 direction) = 0;  //子类必须实现Collide
+	virtual Crash Collide(Vector3 origin, Vector3 direction) = 0;  //子类必须实现Collide
 };
 
 class Sphere : public Primitive
 {
+public:
 	Vector3 center;
 	float radius;
-
-public:
-	Sphere(Vector3 _center,float _radius) :Primitive(),center(_center),radius(_radius) {};
+	Sphere(Vector3 _center=Vector3(),float _radius=0.f) :Primitive(),center(_center),radius(_radius) {};
 	~Sphere() {}
-	Crash Collide(Vector3& origin, Vector3& direction);
+	Crash Collide(Vector3 origin, Vector3 direction);
+};
+
+class Plane :public Primitive
+{
+public:
+	Vector3 normal;
+	float R;
+	Plane(float _R = -2.f,Vector3 _normal=Vector3(0,0,1.f)) :Primitive(), R(_R),normal(_normal) {}
+	Crash Collide(Vector3 origin, Vector3 direction);
 };

@@ -1,6 +1,31 @@
 #include "primitive.h"
 
-Crash  Sphere::Collide(Vector3 &origin, Vector3& direction)
+Crash Plane::Collide(Vector3 origin, Vector3 direction)
+{
+	Crash crash;
+	direction = direction.GetUnitVector();
+	normal = normal.GetUnitVector();
+	float d = normal.Dot(direction);
+	if (abs(d) < EPS)
+	{
+		crash.crashed = false;
+		return crash;
+	}
+	double l = (normal * R - origin).Dot(normal) / d;
+	if (l < EPS) 
+	{
+		crash.crashed = false;
+		return crash;
+	}
+
+	crash.dist = l;
+	crash.front = (d < 0);
+	crash.position =origin + direction * crash.dist;
+	crash.normal = (crash.front) ? normal : -normal;
+	return crash;
+}
+
+Crash  Sphere::Collide(Vector3 origin, Vector3 direction)
 {
 	Crash crash;
 	direction = direction.GetUnitVector();

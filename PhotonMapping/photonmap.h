@@ -23,7 +23,6 @@ struct KDTreeNode
 class PhotonMap
 {
 private:
-	int maxPotons;
 	int storedPhotons;
 	int emitPhotons;
 	vector<Photon> photons;
@@ -32,12 +31,14 @@ private:
 	KDTreeNode* BuildTree(int left, int right, int depth);//根据photons的left，right构建KD树,depth用于判断用x,y,z那一轴分割
 public:
 	KDTreeNode* root;
-	PhotonMap() { root = nullptr;}
+	PhotonMap() { root = nullptr; emitPhotons = 0; storedPhotons = 0; }
 	~PhotonMap() { makeEmpty(root); photons.clear();  }
 	int GetStoredPhotons() { return storedPhotons; }
+	void SetEmitPhotons(int n) { emitPhotons = n; }
+	int GetEmitPhotons() { return emitPhotons; }
 	void LocatePhotons(KDTreeNode* t, Vector3& pos, float maxDist2, std::vector<Photon>& result);
 	void Setup() { root = BuildTree(0, photons.size() - 1, 0); photons.clear(); }
-	void Store(const Photon& photon) { photons.push_back(photon); ++storedPhotons; ++emitPhotons; }
-	Color GetIrradiance(Vector3& pos, Vector3& normal, float maxDist, int n);
+	void Store(const Photon& photon) { photons.push_back(photon); ++storedPhotons;}
+	Color GetIrradiance(Vector3& pos, Vector3& normal, float maxDist);
 
 };

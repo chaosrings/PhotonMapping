@@ -88,9 +88,9 @@ Vector3 Vector3::GetUnitVector() {
 
 void Vector3::AssRandomVector() {
 	do {
-		x =u(e) - 1;
-		y = u(e) - 1;
-		z = u(e) - 1;
+		x = RandomRealZeroOne() - 1;
+		y = RandomRealZeroOne() - 1;
+		z = RandomRealZeroOne() - 1;
 	} while (x * x + y * y + z * z > 1 || x * x + y * y + z * z < EPS);
 	*this = GetUnitVector();
 }
@@ -122,9 +122,9 @@ Vector3 Vector3::Refract(Vector3 N, float n) {
 }
 
 Vector3 Vector3::Diffuse(Vector3 N) {
-	float theta = u(e)*2*PI;
-	float random2 = u(e);
-	Vector3 z = N;
+	float theta = RandomRealZeroOne() *2*PI;
+	float random2 = RandomRealZeroOne();
+	Vector3 z = N.GetUnitVector();
 	Vector3 y;
 	/*大于0.1 与y轴作叉积,小于0.1与x轴作叉积*/
 	if (z.x > 0.1) 
@@ -152,3 +152,5 @@ Vector3 Vector3::Rotate(Vector3 axis, float theta) {
 	ret.z += z * (axis.z * axis.z + (1 - axis.z * axis.z) * cost);
 	return ret;
 }
+
+
