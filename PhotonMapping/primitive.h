@@ -24,6 +24,9 @@ struct Crash
 	Vector3 normal;
 	float dist;
 	bool front;
+	Crash(bool _crash = false, Vector3 _position = Vector3(), Vector3 _normal = Vector3(), float _dist = 0, bool _front = false) :
+		crashed(_crash), position(_position), normal(_normal), dist(_dist), front(_front) {
+	}
 };
 
 class Primitive

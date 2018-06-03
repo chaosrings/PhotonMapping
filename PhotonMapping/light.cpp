@@ -36,8 +36,9 @@ bool AreaLight::Collide(Vector3 origin, Vector3 direction) {
 
 Photon AreaLight::EmitPhoton() {
 	Photon ret;
-	ret.power = color;
+	ret.power = this->color;
 	ret.pos = center + dx * (RandomRealZeroOne() * 2 - 1) + dy * (RandomRealZeroOne() * 2 - 1);
+	//ret.dir.AssRandomVector();
 	ret.dir = ret.dir.Diffuse(dy*dx);
 	return ret;
 }

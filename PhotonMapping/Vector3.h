@@ -43,6 +43,6 @@ class Ray
 public:
 	Vector3 origin;
 	Vector3 direction;
-	Ray(Vector3& _origin = Vector3(0, 0, 0), Vector3& _direction = Vector3(0, 0, 0)) :origin(_origin), direction(_direction) {}
+	Ray(Vector3 _origin = Vector3(0, 0, 0), Vector3 _direction = Vector3(0, 0, 0)) :origin(_origin), direction(_direction) {}
 };
 #endif

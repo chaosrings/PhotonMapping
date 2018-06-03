@@ -53,7 +53,7 @@ void  PhotonMap::LocatePhotons(KDTreeNode* t,Vector3& pos , float maxDist2,std::
 	int splitPlane = t->photon.splitPlane;
 	if (pos.GetCoord(splitPlane) < t->photon.pos.GetCoord(splitPlane))
 		LocatePhotons(t->left, pos, maxDist2, result);
-	else if (pos.GetCoord(splitPlane) > t->photon.pos.GetCoord(splitPlane))
+	else 
 		LocatePhotons(t->right, pos, maxDist2, result);
 	//从孩子结点回溯后，判断t到pos的距离。
 	float curDist2 = pos.Distance2(t->photon.pos);   
@@ -80,6 +80,6 @@ Color PhotonMap::GetIrradiance(Vector3& pos, Vector3& normal, float maxDist)
 		if (normal.Dot(result[i].dir) < 0)
 			ret += result[i].power;
 	}
-	ret /=(PI*maxDist*maxDist*emitPhotons);
+	ret /=(PI* maxDist*maxDist*emitPhotons);
 	return ret;
 }

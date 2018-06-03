@@ -17,7 +17,7 @@ Crash Plane::Collide(Vector3 origin, Vector3 direction)
 		crash.crashed = false;
 		return crash;
 	}
-
+	crash.crashed = true;
 	crash.dist = l;
 	crash.front = (d < 0);
 	crash.position =origin + direction * crash.dist;
@@ -56,6 +56,7 @@ Crash  Sphere::Collide(Vector3 origin, Vector3 direction)
 
 	crash.position = origin + direction * crash.dist;
 	crash.normal = (crash.position - center).GetUnitVector();
-	if (crash.front == false) crash.normal = -crash.normal;
+	if (crash.front == false)
+		crash.normal = -crash.normal;
 	return crash;
 }

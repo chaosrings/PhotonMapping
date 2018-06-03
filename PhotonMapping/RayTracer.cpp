@@ -1,6 +1,6 @@
 #include "raytracer.h"
 #include "Vector3.h"
-Color RayTracer::RayTracing(Ray& ray, int depth)
+Color RayTracer::RayTracing(Ray ray, int depth)
 {
 	Color ret;
 	Crash objCrash;
@@ -11,13 +11,12 @@ Color RayTracer::RayTracing(Ray& ray, int depth)
 		objCrash = object->Collide(ray.origin, ray.direction);
 	Light*  light = scene->FindNearestLight(ray.origin, ray.direction);
 
-	if (light != nullptr&& (object==nullptr||object!=nullptr&&objCrash.crashed > light->crashDist))
+	if (light != nullptr&& (object==nullptr||light->crashDist<objCrash.dist))
 	{
 		ret += light->GetColor();
 	}
 	if (object != nullptr)
 	{
-		
 		if (object->GetMaterial().refl > EPS)
 			ret += RayReflection(object, objCrash,ray ,depth + 1);
 		if(object->GetMaterial().refr>EPS)
@@ -28,32 +27,32 @@ Color RayTracer::RayTracing(Ray& ray, int depth)
 	return ret;
 }
 
-Color RayTracer::RayReflection(Primitive* object, Crash crash,Ray& ray, int depth)
+Color RayTracer::RayReflection(Primitive* object, Crash crash,Ray ray, int depth)
 {
 	Color ret;
-	Ray reflRay = Ray(crash.position, ray.direction.Reflect(crash.normal).GetUnitVector());
+	Ray reflRay = Ray(crash.position, ray.direction.Reflect(crash.normal));
 	ret = RayTracing(reflRay, depth + 1)*object->GetMaterial().color;
 	ret *= object->GetMaterial().refl;
 	return ret;
 }
-Color RayTracer::RayRefraction(Primitive* object, Crash crash, Ray& ray, int depth)
+Color RayTracer::RayRefraction(Primitive* object, Crash crash, Ray ray, int depth)
 {
 	Color ret;
 	float n = object->GetMaterial().rindex;
 	if (crash.front)
 		n = 1 / n;
-	Ray refrRay = Ray(crash.position, ray.direction.Refract(crash.normal, n).GetUnitVector());
+	Ray refrRay = Ray(crash.position, ray.direction.Refract(crash.normal, n));
 	ret = RayTracing(refrRay, depth + 1)*object->GetMaterial().color;
 	ret *= object->GetMaterial().refr;
 	return ret;
 }
 
-Color RayTracer::RayDiffusion(Primitive* object, Crash crash, Ray& ray, int depth)
+Color RayTracer::RayDiffusion(Primitive* object, Crash crash, Ray ray, int depth)
 {
 	Color ret;
 	for (auto light : scene->lights)
 		ret += light->GetIrradiance(crash, object, scene->objects)*object->GetMaterial().color;
-	ret += photonmap->GetIrradiance(crash.position, crash.normal, 0.1f)*object->GetMaterial().color;
+	ret += photonmap->GetIrradiance(crash.position, crash.normal, 1.f)*object->GetMaterial().color;
 	ret *= object->GetMaterial().diff;
 	return ret;
 }
@@ -70,8 +69,17 @@ void RayTracer::Run(Scene* _scene,PhotonMap* _photonmap)
 	{
 		for (int j = 0; j < W; ++j)
 		{
-			Vector3 emitDirection = scene->camera.Emit(i, j);
-			Color color = RayTracing(Ray(eyePosition, emitDirection), 0);
+			Color color;
+			for (int x =0; x <= 0; ++x)
+			{
+				for (int y = 0 ;y <=0; ++y)
+				{
+					Vector3 emitDirection = scene->camera.Emit(i+x/3, j+x/3);
+					color += RayTracing(Ray(eyePosition, emitDirection), 0);
+					
+				}
+			}
+			//color = color;
 			scene->camera.SetColor(i, j, color);
 		}
 	}

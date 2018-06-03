@@ -19,7 +19,7 @@ public:
 	~Light() {}
 	
 
-	Color GetColor() { return color; }
+	Color GetColor() { return color*this->power; }
 	void SetPower(float _power) { power = _power; }
 	Color DirectIllumination(Crash crash, Primitive* object, Vector3 toLight);
 	virtual Color GetIrradiance(Crash crash, Primitive* object, std::vector<Primitive*>& primitives)=0;
@@ -33,7 +33,7 @@ class AreaLight : public Light {
 public:
 	AreaLight(Vector3 _center=Vector3(3.f,3.f,3.f),
 		Vector3 _dx=Vector3(1.5f,0,0),
-		Vector3 _dy=Vector3(0,1.5f,0.f))
+		Vector3 _dy=Vector3(0.f,1.5f,0.f))
 		: Light(),center(_center),dx(_dx),dy(_dy) {}
 	~AreaLight() {}
 
