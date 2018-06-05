@@ -27,7 +27,7 @@ public:
 	float Module();
 	float Distance2(Vector3&);
 	float Distance(Vector3&) ;
-	float GetCoord(int axis);
+	float& GetCoord(int axis);
 	Vector3 GetUnitVector();
 	void AssRandomVector();
 	Vector3 GetAnVerticalVector();

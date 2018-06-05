@@ -32,8 +32,8 @@ class AreaLight : public Light {
 	Vector3 center, dx, dy;
 public:
 	AreaLight(Vector3 _center=Vector3(3.f,3.f,3.f),
-		Vector3 _dx=Vector3(1.5f,0,0),
-		Vector3 _dy=Vector3(0.f,1.5f,0.f))
+		Vector3 _dx=Vector3(3.f,0,0),
+		Vector3 _dy=Vector3(0.f,3.f,0.f))
 		: Light(),center(_center),dx(_dx),dy(_dy) {}
 	~AreaLight() {}
 

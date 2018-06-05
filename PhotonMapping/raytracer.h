@@ -2,7 +2,7 @@
 #include "common.h"
 #include "color.h"
 #include "scene.h"
-
+#include <algorithm>
 class RayTracer
 {
 private:

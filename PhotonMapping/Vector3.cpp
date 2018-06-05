@@ -76,7 +76,7 @@ float Vector3::Distance(Vector3& term) {
 	return (term - *this).Module();
 }
 
-float Vector3::GetCoord(int axis){
+float& Vector3::GetCoord(int axis){
 	if (axis == 0) return x;
 	if (axis == 1) return y;
 	return z;

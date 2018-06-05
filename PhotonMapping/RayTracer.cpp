@@ -1,5 +1,7 @@
 #include "raytracer.h"
 #include "Vector3.h"
+
+#include <ppl.h>
 Color RayTracer::RayTracing(Ray ray, int depth)
 {
 	Color ret;
@@ -17,12 +19,15 @@ Color RayTracer::RayTracing(Ray ray, int depth)
 	}
 	if (object != nullptr)
 	{
+		if (depth > 40)
+			return object->GetMaterial().color;
 		if (object->GetMaterial().refl > EPS)
 			ret += RayReflection(object, objCrash,ray ,depth + 1);
 		if(object->GetMaterial().refr>EPS)
 			ret += RayRefraction(object, objCrash,ray,depth + 1);
 		if (object->GetMaterial().diff > EPS)
 			ret += RayDiffusion(object, objCrash, ray,depth + 1);
+
 	}
 	return ret;
 }
@@ -52,7 +57,9 @@ Color RayTracer::RayDiffusion(Primitive* object, Crash crash, Ray ray, int depth
 	Color ret;
 	for (auto light : scene->lights)
 		ret += light->GetIrradiance(crash, object, scene->objects)*object->GetMaterial().color;
-	ret += photonmap->GetIrradiance(crash.position, crash.normal, 1.f)*object->GetMaterial().color;
+	ret += photonmap->GetIrradiance(crash.position, crash.normal, 0.1f,100)*object->GetMaterial().color;
+	/*Ray rayDiff = Ray(crash.position, crash.normal.Diffuse(crash.normal));
+	ret = RayTracing(rayDiff, depth + 1);*/
 	ret *= object->GetMaterial().diff;
 	return ret;
 }
@@ -65,24 +72,18 @@ void RayTracer::Run(Scene* _scene,PhotonMap* _photonmap)
 	int W = scene->GetImageW();
 	Bmp* result = new Bmp(H, W);
 	Vector3 eyePosition = scene->camera.GetEyePosition();
-	for (int i = 0; i < H; ++i)
+	concurrency::parallel_for(0, H, [&](int i)
 	{
 		for (int j = 0; j < W; ++j)
 		{
-			Color color;
-			for (int x =0; x <= 0; ++x)
-			{
-				for (int y = 0 ;y <=0; ++y)
-				{
-					Vector3 emitDirection = scene->camera.Emit(i+x/3, j+x/3);
-					color += RayTracing(Ray(eyePosition, emitDirection), 0);
-					
-				}
-			}
-			//color = color;
+			Vector3 emitDirection = scene->camera.Emit(i, j);
+			Color color = RayTracing(Ray(eyePosition, emitDirection), 0);
+			color.Confine();
 			scene->camera.SetColor(i, j, color);
-		}
+		} 
 	}
+	);
+
 	scene->camera.Output(result);
 	result->Output("result.bmp");
 	delete result;

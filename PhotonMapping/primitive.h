@@ -55,7 +55,10 @@ class Plane :public Primitive
 {
 public:
 	Vector3 normal;
-	float R;
-	Plane(float _R = -2.f,Vector3 _normal=Vector3(0,0,1.f)) :Primitive(), R(_R),normal(_normal) {}
+	Vector3 center;
+	float  halfWidth;
+	float  halfLength;
+	Plane(Vector3 _normal = Vector3(0, 0, 1), Vector3 _center = Vector3(0, 0, -2), float _hW = 100.f, float _hL = 100.f
+	) :Primitive(), normal(_normal),center(_center),halfWidth(_hW),halfLength(_hL) {}
 	Crash Collide(Vector3 origin, Vector3 direction);
 };

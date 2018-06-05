@@ -9,7 +9,7 @@ bool PhotonTracer::PhotonDiffusion(Crash crash, Primitive* pri, Photon photon, i
 	Material material = pri->GetMaterial();
 	double eta = (material.diff + material.refl) * material.color.Power();
 
-	if (eta <= ran() * (*prob)) {
+	if (eta <= RandomRealZeroOne() * (*prob)) {
 		*prob -= eta;
 		return false;
 	}
@@ -24,7 +24,7 @@ bool PhotonTracer::PhotonReflection(Crash crash, Primitive* pri, Photon photon, 
 	Material material = pri->GetMaterial();
 	double eta = material.refl * material.color.Power();
 
-	if (eta <= ran() * (*prob)) {
+	if (eta <= RandomRealZeroOne() * (*prob)) {
 		*prob -= eta;
 		return false;
 	}
@@ -45,7 +45,7 @@ bool PhotonTracer::PhotonRefraction(Crash crash, Primitive* pri, Photon photon, 
 		photon.power = photon.power * trans / trans.Power();
 	}
 
-	if (eta <= ran() * (*prob)) {
+	if (eta <= RandomRealZeroOne() * (*prob)) {
 		*prob -= eta;
 		return false;
 	}
@@ -65,9 +65,11 @@ void PhotonTracer::PhotonTracing(Photon photon, int dep) {
 	if (nearest_primitive != NULL) {
 		Crash crash = nearest_primitive->Collide(photon.pos, photon.dir);
 		photon.pos = crash.position;
-		if (nearest_primitive->GetMaterial().diff > EPS && dep > 1)
-			photonmap->Store(photon);	
-
+		if (nearest_primitive->GetMaterial().diff > EPS&&dep>1)
+		{
+			if(photonmap->GetStoredPhotons()<maxEmitPhoton)
+				photonmap->Store(photon);
+		}
 		double prob = 1;
 		if (PhotonDiffusion(crash,nearest_primitive, photon, dep, &prob) == false)
 			if (PhotonReflection(crash,nearest_primitive, photon, dep, &prob) == false)

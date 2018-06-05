@@ -5,22 +5,26 @@ Crash Plane::Collide(Vector3 origin, Vector3 direction)
 	Crash crash;
 	direction = direction.GetUnitVector();
 	normal = normal.GetUnitVector();
-	float d = normal.Dot(direction);
-	if (abs(d) < EPS)
+	float t1 = normal.Dot(center - origin);
+	if (t1 > EPS)   //与0比较为何不可？
+		crash.front = false;
+	else
+		crash.front = true;
+	float t2 = direction.Dot(normal);
+	float t = t1 / t2;
+	if (t <EPS)	//与0比较为何不可？
 	{
 		crash.crashed = false;
 		return crash;
 	}
-	double l = (normal * R - origin).Dot(normal) / d;
-	if (l < EPS) 
+	crash.position = origin + direction*t;
+	crash.dist = t;
+	if (crash.position.Distance2(center)>halfLength*halfLength+halfWidth*halfWidth)
 	{
 		crash.crashed = false;
 		return crash;
 	}
 	crash.crashed = true;
-	crash.dist = l;
-	crash.front = (d < 0);
-	crash.position =origin + direction * crash.dist;
 	crash.normal = (crash.front) ? normal : -normal;
 	return crash;
 }

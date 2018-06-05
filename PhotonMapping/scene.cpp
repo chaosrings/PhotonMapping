@@ -21,16 +21,7 @@ void Scene::Initialize()
 	Light*  areaLight = new AreaLight();//д╛хо
 	lights.push_back(areaLight);
 	
-	
-	Sphere* sphere = new Sphere();
-	sphere->GetMaterial().color = Color(1.f, 0.f,1.f);
-	sphere->GetMaterial().diff = 0.f;
-	sphere->GetMaterial().refl = 0.f;
-	sphere->GetMaterial().refr = 1.f;
-	sphere->GetMaterial().rindex = 1.7f;
-	sphere->center = Vector3(-0.5f, 5.14f, -1.8f);
-	sphere->radius = 0.2f;
-	objects.push_back(sphere);
+	Sphere* sphere = nullptr;
 
 	sphere = new Sphere();
 	sphere->GetMaterial().color = Color(0.f, 1.f, 1.f);
@@ -65,10 +56,10 @@ void Scene::Initialize()
 
 	sphere = new Sphere();
 	sphere->GetMaterial().color = Color(1.f, 1.f, 1.f);
-	sphere->GetMaterial().diff = 0.5f;
-	sphere->GetMaterial().refl = 0.4f;
-	sphere->GetMaterial().refr = 0.1f;
-	sphere->GetMaterial().rindex = 1.7f;
+	sphere->GetMaterial().diff = 0.0f;
+	sphere->GetMaterial().refl = 0.2f;
+	sphere->GetMaterial().refr = 0.8f;
+	sphere->GetMaterial().rindex = 1.8f;
 	sphere->center = Vector3(0.f,6.f, -1.5f);
 	sphere->radius = 0.5f;
 	objects.push_back(sphere);
@@ -87,26 +78,27 @@ void Scene::Initialize()
 	//bottom
 	Plane* plane = new Plane();
 	plane->GetMaterial().color = Color(0.75f, 0.75f, 0.75f);
-	plane->GetMaterial().diff = 0.5f;
-	plane->GetMaterial().refl = 0.5f;
+	plane->GetMaterial().diff = 1.f;
+	plane->GetMaterial().refl = 0.f;
 	plane->GetMaterial().refr = 0.f;
 	objects.push_back(plane);
-	/*
+
 	//top
 	plane = new Plane();
+	plane->center = Vector3(3, 3, 3.01f);
+	plane->normal = Vector3(0, 0, -1.f);
 	plane->GetMaterial().color = Color(0.75f, 0.75f, 0.75f);
-	plane->R = 3.001f;
-	plane->normal = Vector3(0,0, -1.f);
 	plane->GetMaterial().diff = 1.f;
 	plane->GetMaterial().refl = 0.f;
 	plane->GetMaterial().refr = 0.f;
 	objects.push_back(plane);
 
 
+
 	//left
 	plane = new Plane();
 	plane->GetMaterial().color = Color(0.75f, 0.f, 0.f);
-	plane->R = 4.f;
+	plane->center = Vector3(0,10.f, 0);
 	plane->normal = Vector3(0, -1.f, 0);
 	plane->GetMaterial().diff = 1.f;
 	plane->GetMaterial().refl = 0.f;
@@ -116,7 +108,7 @@ void Scene::Initialize()
 	//right
 	plane = new Plane();
 	plane->GetMaterial().color = Color(0.f, 0.f, 0.75f);
-	plane->R = 0.1f;
+	plane->center = Vector3(0, -7.f, 0);
 	plane->normal = Vector3(0, 1.f, 0);
 	plane->GetMaterial().diff = 1.f;
 	plane->GetMaterial().refl = 0.f;
@@ -126,7 +118,7 @@ void Scene::Initialize()
 	//back
 	plane = new Plane();
 	plane->GetMaterial().color = Color(0.75f, 0.75f, 0.75f);
-	plane->R = 2.f;
+	plane->center = Vector3(7.f, 0.f,0.f);
 	plane->normal = Vector3(-1.f, 0, 0);
 	plane->GetMaterial().diff = 1.f;
 	plane->GetMaterial().refl = 0.f;
@@ -134,16 +126,15 @@ void Scene::Initialize()
 	objects.push_back(plane);
 
 	//front
-	 plane = new Plane();
+	plane = new Plane();
 	plane->GetMaterial().color = Color(0.f, 0.f, 0.75f);
-	plane->R = 0.1f;
+	plane->center = Vector3(-7.f, 0, 0);
 	plane->normal = Vector3(1.f, 0, 0);
 	plane->GetMaterial().diff = 1.f;
 	plane->GetMaterial().refl = 0.f;
 	plane->GetMaterial().refr = 0.f;
 	objects.push_back(plane);
 
-	*/
 }	
 
 
