@@ -78,6 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -115,6 +116,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\ashone\Documents\Visual Studio 2017\Projects\PhotonMapping\PhotonMapping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,31 +141,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bmp.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="color.h" />
-    <ClInclude Include="common.h" />
-    <ClInclude Include="light.h" />
-    <ClInclude Include="photonmap.h" />
-    <ClInclude Include="photontracer.h" />
-    <ClInclude Include="primitive.h" />
-    <ClInclude Include="raytracer.h" />
-    <ClInclude Include="scene.h" />
-    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="include\bmp.h" />
+    <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\color.h" />
+    <ClInclude Include="include\common.h" />
+    <ClInclude Include="include\light.h" />
+    <ClInclude Include="include\primitive.h" />
+    <ClInclude Include="include\ray.h" />
+    <ClInclude Include="include\raytracer.h" />
+    <ClInclude Include="include\scene.h" />
+    <ClInclude Include="include\vector3.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bmp.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="color.cpp" />
+    <ClCompile Include="Material\bmp.cpp" />
+    <ClCompile Include="Scene\camera.cpp" />
+    <ClCompile Include="Material\color.cpp" />
     <ClCompile Include="common.cpp" />
-    <ClCompile Include="light.cpp" />
+    <ClCompile Include="Scene\light.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="photonmap.cpp" />
-    <ClCompile Include="photontracer.cpp" />
-    <ClCompile Include="primitive.cpp" />
-    <ClCompile Include="RayTracer.cpp" />
-    <ClCompile Include="scene.cpp" />
-    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Primitive\primitive.cpp" />
+    <ClCompile Include="Scene\raytracer.cpp" />
+    <ClCompile Include="Scene\scene.cpp" />
+    <ClCompile Include="Math\vector3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

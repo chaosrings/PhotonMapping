@@ -79,7 +79,7 @@ void PhotonTracer::PhotonTracing(Photon photon, int dep) {
 
 void PhotonTracer::Run(Scene* _scene ) {
 	int n = maxEmitPhoton;
-	photonmap = new PhotonMap();
+	photonmap = new Photonmap(n);
 	photonmap->SetEmitPhotons(n);
 	scene = _scene;
 	double total_power = 0;
@@ -92,7 +92,7 @@ void PhotonTracer::Run(Scene* _scene ) {
 		double light_power = light->GetColor().Power();
 		while (light_power >= photon_power) {
 			if ((++emited_photons & 1048575) == 0) std::cout << "Emited photons: " << emited_photons << std::endl;
-			Photon photon = light->EmitPhoton();
+			//Photon photon = light->EmitPhoton();
 			photon.power *= total_power;
 			PhotonTracing(photon, 1);
 			light_power -= photon_power;
@@ -102,5 +102,5 @@ void PhotonTracer::Run(Scene* _scene ) {
 
 
 	std::cout << "Tree balancing..." << std::endl;
-	photonmap->Setup();
+	photonmap->Balance();
 }

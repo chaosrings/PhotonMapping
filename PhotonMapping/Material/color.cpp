@@ -1,4 +1,4 @@
-#include"color.h"
+#include "color.h"
 Color operator + (const Color& A, const Color& B) {
 	return Color(A.r + B.r, A.g + B.g, A.b + B.b);
 }

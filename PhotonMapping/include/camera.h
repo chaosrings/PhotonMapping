@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "vector3.h"
 #include "color.h"
 #include "bmp.h"
 #include <vector>

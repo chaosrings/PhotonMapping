@@ -1,10 +1,12 @@
-#ifndef VECTOR3_H
-#define VECTOR3_H
-
+#pragma once
+#include<cmath>
 #include<sstream>
+#include<cstdlib>
+#include <time.h>
 #include "common.h"
 
-class Vector3 {
+class Vector3 
+{
 public:
 	float x, y, z;
 
@@ -38,11 +40,3 @@ public:
 	Vector3 Diffuse(Vector3 normal);
 	Vector3 Rotate(Vector3 axis, float theta);
 };
-class Ray
-{
-public:
-	Vector3 origin;
-	Vector3 direction;
-	Ray(Vector3 _origin = Vector3(0, 0, 0), Vector3 _direction = Vector3(0, 0, 0)) :origin(_origin), direction(_direction) {}
-};
-#endif

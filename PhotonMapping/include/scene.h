@@ -2,7 +2,7 @@
 #include "camera.h"
 #include "light.h"
 #include "bmp.h"
-#include "Vector3.h"
+#include "vector3.h"
 #include "primitive.h"
 #include "common.h"
 #include <vector>

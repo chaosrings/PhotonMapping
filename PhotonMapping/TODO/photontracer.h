@@ -7,7 +7,7 @@
 
 class PhotonTracer {
 	Scene* scene;
-	PhotonMap* photonmap;
+	Photonmap* photonmap;
 
 	void PhotonTracing(Photon, int dep);
 	bool PhotonDiffusion(Crash crash, Primitive * pri, Photon photon, int dep, double * prob);
@@ -17,7 +17,7 @@ class PhotonTracer {
 public:
 	PhotonTracer() {};
 	void SetScene(Scene* input) { scene = input; }
-	PhotonMap* GetPhotonMap() { return photonmap; }
+	Photonmap* GetPhotonMap() { return photonmap; }
 	void Run(Scene*);
 };
 

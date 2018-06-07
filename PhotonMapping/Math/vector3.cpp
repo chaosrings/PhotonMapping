@@ -1,12 +1,5 @@
+
 #include "vector3.h"
-#include<cmath>
-#include<sstream>
-#include<cstdlib>
-#include<random>
-#include <time.h>
-
-
-
 Vector3 operator + (const Vector3& A, const Vector3& B) {
 	return Vector3(A.x + B.x, A.y + B.y, A.z + B.z);
 }

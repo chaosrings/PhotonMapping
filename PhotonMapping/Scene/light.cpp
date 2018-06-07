@@ -1,6 +1,4 @@
 #include "light.h"
-
-
 Color Light::DirectIllumination(Crash crash,Primitive* object, Vector3 toLight) //计算直接光照
 {
 	Color ret;
@@ -10,7 +8,7 @@ Color Light::DirectIllumination(Crash crash,Primitive* object, Vector3 toLight) 
 
 	if (dot > EPS)
 	{
-		float factor = dot*power/dist2;
+		float factor = dot/dist2;
 		ret += color*factor;
 	}
 	return ret;
@@ -33,15 +31,14 @@ bool AreaLight::Collide(Vector3 origin, Vector3 direction) {
 	return true;
 }
 
-
+/*
 Photon AreaLight::EmitPhoton() {
 	Photon ret;
-	ret.power = this->color;
+	ret.power = this->color/this->color.Power();
 	ret.pos = center + dx * (RandomRealZeroOne() * 2 - 1) + dy * (RandomRealZeroOne() * 2 - 1);
 	ret.dir.AssRandomVector();
-	ret.dir = ret.dir.Diffuse(dy*dx);
 	return ret;
-}
+}*/
 
 Color AreaLight::GetIrradiance(Crash crash,Primitive* object, std::vector<Primitive*>& primitives) 
 {

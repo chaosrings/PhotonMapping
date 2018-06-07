@@ -15,75 +15,66 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Vector3.h">
+    <ClInclude Include="include\bmp.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="common.h">
+    <ClInclude Include="include\camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="photonmap.h">
+    <ClInclude Include="include\color.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="color.h">
+    <ClInclude Include="include\common.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="photontracer.h">
+    <ClInclude Include="include\light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="primitive.h">
+    <ClInclude Include="include\primitive.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="bmp.h">
+    <ClInclude Include="include\raytracer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
+    <ClInclude Include="include\scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="include\vector3.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="raytracer.h">
+    <ClInclude Include="include\ray.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Vector3.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Material\color.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\light.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive\primitive.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Material\bmp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="common.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="color.cpp">
+    <ClCompile Include="Math\vector3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="photonmap.cpp">
+    <ClCompile Include="Scene\camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="primitive.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="bmp.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="scene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="photontracer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="RayTracer.cpp">
+    <ClCompile Include="Scene\raytracer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

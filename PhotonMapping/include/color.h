@@ -1,6 +1,4 @@
 #pragma once
-#ifndef COLOR_H
-#define COLOR_H
 
 #include<sstream>
 #include <algorithm>
@@ -25,4 +23,4 @@ public:
 	void Input(std::stringstream&);
 };
 
-#endif
+

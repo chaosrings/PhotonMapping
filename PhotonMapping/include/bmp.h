@@ -1,10 +1,9 @@
 #pragma once
-#ifndef BMP_H
-#define BMP_H
-
-#include"color.h"
-#include<string>
+#include "color.h"
 #include "common.h"
+
+#include<string>
+
 
 typedef unsigned char byte;
 typedef unsigned short word;
@@ -70,4 +69,3 @@ public:
 	Color GetSmoothColor(float u,float v);
 };
 
-#endif
