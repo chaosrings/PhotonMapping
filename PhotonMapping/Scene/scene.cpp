@@ -7,23 +7,19 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	for (auto pointer : objects)
-		delete pointer;
-	for (auto pointer : lights)
-		delete pointer;
 	objects.clear();
 	lights.clear();
 }
 
 void Scene::Initialize()
 {
-	camera;//默认
-	Light*  areaLight = new AreaLight();//默认
-	lights.push_back(areaLight);
+	//camera;//默认
+	//Light*  areaLight = new AreaLight();//默认
+	//lights.push_back(areaLight);
 	
-	Sphere* sphere = nullptr;
+	shared_ptr<Sphere> sphere = nullptr;
 
-	sphere = new Sphere();
+	sphere.reset(new Sphere());
 	sphere->GetMaterial().color = Color(0.f, 1.f, 1.f);
 	sphere->GetMaterial().diff = 0.f;
 	sphere->GetMaterial().refl = 0.f;
@@ -33,7 +29,7 @@ void Scene::Initialize()
 	sphere->radius = 0.2f;
 	objects.push_back(sphere);
 
-	sphere = new Sphere();
+	sphere.reset( new Sphere());
 	sphere->GetMaterial().color = Color(1.f, 1.f, 0.f);
 	sphere->GetMaterial().diff = 0.f;
 	sphere->GetMaterial().refl = 0.f;
@@ -43,7 +39,7 @@ void Scene::Initialize()
 	sphere->radius = 0.2f;
 	objects.push_back(sphere);
 
-	sphere = new Sphere();
+	sphere.reset(new Sphere());
 	sphere->GetMaterial().color = Color(0.f, 0.f, 1.f);
 	sphere->GetMaterial().diff = 0.f;
 	sphere->GetMaterial().refl = 0.f;
@@ -54,7 +50,7 @@ void Scene::Initialize()
 	objects.push_back(sphere);
 
 
-	sphere = new Sphere();
+	sphere.reset(new Sphere());
 	sphere->GetMaterial().color = Color(1.f, 1.f, 1.f);
 	sphere->GetMaterial().diff = 0.0f;
 	sphere->GetMaterial().refl = 0.2f;
@@ -64,7 +60,7 @@ void Scene::Initialize()
 	sphere->radius = 0.5f;
 	objects.push_back(sphere);
 
-	sphere = new Sphere();
+	sphere.reset(new Sphere());
 	sphere->GetMaterial().color = Color(1.f,1.f, 1.f);
 	sphere->GetMaterial().diff = 0.f;
 	sphere->GetMaterial().refl = 1.f;
@@ -76,7 +72,8 @@ void Scene::Initialize()
 	
 
 	//bottom
-	Plane* plane = new Plane();
+	shared_ptr<Plane> plane = nullptr;
+	plane.reset(new Plane());
 	plane->GetMaterial().color = Color(0.75f, 0.75f, 0.75f);
 	plane->GetMaterial().diff = 1.f;
 	plane->GetMaterial().refl = 0.f;
@@ -84,7 +81,7 @@ void Scene::Initialize()
 	objects.push_back(plane);
 
 	//top
-	plane = new Plane();
+	plane.reset(new Plane());
 	plane->center = Vector3(3, 3, 3.01f);
 	plane->normal = Vector3(0, 0, -1.f);
 	plane->GetMaterial().color = Color(0.75f, 0.75f, 0.75f);
@@ -96,7 +93,7 @@ void Scene::Initialize()
 
 
 	//left
-	plane = new Plane();
+	plane.reset(new Plane());
 	plane->GetMaterial().color = Color(0.75f, 0.f, 0.f);
 	plane->center = Vector3(0,10.f, 0);
 	plane->normal = Vector3(0, -1.f, 0);
@@ -106,7 +103,7 @@ void Scene::Initialize()
 	objects.push_back(plane);
 
 	//right
-	plane = new Plane();
+	plane.reset(new Plane());
 	plane->GetMaterial().color = Color(0.f, 0.f, 0.75f);
 	plane->center = Vector3(0, -7.f, 0);
 	plane->normal = Vector3(0, 1.f, 0);
@@ -116,7 +113,7 @@ void Scene::Initialize()
 	objects.push_back(plane);
 
 	//back
-	plane = new Plane();
+	plane.reset(new Plane());
 	plane->GetMaterial().color = Color(0.75f, 0.75f, 0.75f);
 	plane->center = Vector3(7.f, 0.f,0.f);
 	plane->normal = Vector3(-1.f, 0, 0);
@@ -126,7 +123,7 @@ void Scene::Initialize()
 	objects.push_back(plane);
 
 	//front
-	plane = new Plane();
+	plane.reset(new Plane());
 	plane->GetMaterial().color = Color(0.f, 0.f, 0.75f);
 	plane->center = Vector3(-7.f, 0, 0);
 	plane->normal = Vector3(1.f, 0, 0);
@@ -138,11 +135,11 @@ void Scene::Initialize()
 }	
 
 
-Primitive* Scene::FindNearestObject(Vector3 origin, Vector3 direction)
+shared_ptr<Primitive> Scene::FindNearestObject(Vector3 origin, Vector3 direction)
 {
 	Crash crash;
-	float minDist = INT_MAX;
-	Primitive* nearestObject=nullptr;
+	float minDist =float(INT_MAX);
+	shared_ptr<Primitive> nearestObject=nullptr;
 	for (auto object : objects)
 	{
 		crash = object->Collide(origin, direction);
@@ -158,7 +155,7 @@ Primitive* Scene::FindNearestObject(Vector3 origin, Vector3 direction)
 Crash Scene::GetFirstCrash(Vector3 origin, Vector3 direction)
 {
 	Crash crash;
-	float minDist = 3e37;
+	float minDist =float(INT_MAX);
 	for (auto object : objects)
 	{
 		Crash temp = object->Collide(origin, direction);
@@ -171,10 +168,10 @@ Crash Scene::GetFirstCrash(Vector3 origin, Vector3 direction)
 	return crash;
 }
 
-Light* Scene::FindNearestLight(Vector3 origin, Vector3 direction)
+shared_ptr<Light> Scene::FindNearestLight(Vector3 origin, Vector3 direction)
 {
-	Light* nearestLight = nullptr;
-	float minDist = INT_MAX;
+	shared_ptr<Light> nearestLight = nullptr;
+	float minDist =float(INT_MAX);
 	for (auto light : lights)
 	{
 		if (light->Collide(origin, direction)&&light->crashDist<minDist)

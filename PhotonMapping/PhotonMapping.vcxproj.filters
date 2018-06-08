@@ -45,6 +45,9 @@
     <ClInclude Include="include\ray.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Parser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,6 +78,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Scene\raytracer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Parser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

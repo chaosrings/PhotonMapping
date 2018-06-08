@@ -24,13 +24,14 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PhotonMapping</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>TinyEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -90,6 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\ashone\Documents\Visual Studio 2017\Projects\PhotonMapping\PhotonMapping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +148,7 @@
     <ClInclude Include="include\color.h" />
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\light.h" />
+    <ClInclude Include="include\Parser.h" />
     <ClInclude Include="include\primitive.h" />
     <ClInclude Include="include\ray.h" />
     <ClInclude Include="include\raytracer.h" />
@@ -160,6 +163,7 @@
     <ClCompile Include="Scene\light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Primitive\primitive.cpp" />
+    <ClCompile Include="Scene\Parser.cpp" />
     <ClCompile Include="Scene\raytracer.cpp" />
     <ClCompile Include="Scene\scene.cpp" />
     <ClCompile Include="Math\vector3.cpp" />

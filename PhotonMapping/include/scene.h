@@ -7,24 +7,29 @@
 #include "common.h"
 #include <vector>
 #include <string>
+#include <memory>
 using std::vector;
+using std::shared_ptr;
 class Scene
 {
 private:
-	vector<Primitive*> objects;
-	vector<Light *>  lights;
-	Camera camera;
+	vector<shared_ptr<Primitive> > objects;
+	vector<shared_ptr<Light>>  lights;
+	shared_ptr<Camera> camera;
 public:
 	Scene();
 	~Scene();
 	void Initialize();
-	int GetImageH() { return camera.GetH(); }
-	int GetImageW() { return camera.GetW(); }
-	const vector<Light*> GetLights() { return lights; }
-	const vector<Primitive*> GetObjects() { return objects; }
-	Primitive* FindNearestObject(Vector3 origin, Vector3 direction);
+	int GetImageH() { return camera->GetH(); }
+	int GetImageW() { return camera->GetW(); }
+	const vector<shared_ptr<Light>> GetLights() { return lights; }
+	const vector<shared_ptr<Primitive>>  GetObjects() { return objects; }
+	shared_ptr<Primitive> FindNearestObject(Vector3 origin, Vector3 direction);
 	Crash     GetFirstCrash(Vector3 origin, Vector3 direction);
-	Light*     FindNearestLight(Vector3 origin, Vector3 direction);
+	shared_ptr<Light>     FindNearestLight(Vector3 origin, Vector3 direction);
+	void SetCamera(shared_ptr<Camera> _camera) { camera = _camera; }
+	void AddObject(shared_ptr<Primitive> _obj) { objects.push_back(_obj); }
+	void AddLight(shared_ptr<Light> _light) { lights.push_back(_light); }
 	friend class PhotonTracer;
 	friend class RayTracer;
 };

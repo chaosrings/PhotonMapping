@@ -17,8 +17,8 @@ public:
 	void SetScene(Scene* _scene) { scene = _scene; }
 	void Run(Scene* _scene);
 	Color RayTracing(Ray ray,int depth);
-	Color Shade(Primitive* object, Crash crash, Ray ray, int depth);
-	Color Reflection(Primitive* object, Crash crash, Ray ray, int depth);
-	Color Refraction(Primitive* object, Crash crash, Ray ray, int depth);
-	Color Diffusion(Primitive* object, Crash crash, Ray ray, int depth);
+	Color Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth);
+	Color Reflection(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth);
+	Color Refraction(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth);
+	Color Diffusion(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth);
 };

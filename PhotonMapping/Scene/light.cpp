@@ -1,5 +1,5 @@
 #include "light.h"
-Color Light::DirectIllumination(Crash crash,Primitive* object, Vector3 toLight) //计算直接光照
+Color Light::DirectIllumination(Crash crash,const shared_ptr<Primitive>object, Vector3 toLight) //计算直接光照
 {
 	Color ret;
 	float dist2 = toLight.Module2();
@@ -39,8 +39,7 @@ Photon AreaLight::EmitPhoton() {
 	ret.dir.AssRandomVector();
 	return ret;
 }*/
-
-Color AreaLight::GetIrradiance(Crash crash,Primitive* object, std::vector<Primitive*>& primitives) 
+Color AreaLight::GetIrradiance(Crash crash, const shared_ptr<Primitive> object, const std::vector<shared_ptr<Primitive>>& primitives)
 {
 	Color ret;
 	for (int i = -2; i < 2; i++)

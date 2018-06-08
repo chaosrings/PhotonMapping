@@ -6,17 +6,17 @@ Color RayTracer::RayTracing(Ray ray, int depth)
 	Crash objCrash;
 	if (depth > maxRayTracingDepth)
 		return Color();
-	Primitive* object = scene->FindNearestObject(ray.origin, ray.direction);
+	auto object = scene->FindNearestObject(ray.origin, ray.direction);
 	if (object != nullptr)
 		objCrash = object->Collide(ray.origin, ray.direction);
-	Light*  light = scene->FindNearestLight(ray.origin, ray.direction);
+	auto  light = scene->FindNearestLight(ray.origin, ray.direction);
 	if (light != nullptr&& (object==nullptr||light->crashDist<objCrash.dist))
 		return light->GetColor();
 	if (object != nullptr)
 		return Shade(object, objCrash, ray, depth);
 }
 
-Color RayTracer::Shade(Primitive* object, Crash crash, Ray ray, int depth)
+Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
 {
 	Color ret;
 	Color material = object->GetMaterial().color;
@@ -32,13 +32,13 @@ Color RayTracer::Shade(Primitive* object, Crash crash, Ray ray, int depth)
 }
 
 
-Color RayTracer::Reflection(Primitive* object, Crash crash,Ray ray, int depth)
+Color RayTracer::Reflection(const shared_ptr<Primitive> object, Crash crash,Ray ray, int depth)
 {
 	Color ret;
 	Ray reflRay = Ray(crash.position, ray.direction.Reflect(crash.normal));
 	return  RayTracing(reflRay, depth + 1);
 }
-Color RayTracer::Refraction(Primitive* object, Crash crash, Ray ray, int depth)
+Color RayTracer::Refraction(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
 {
 	Color ret;
 	float n = object->GetMaterial().rindex;
@@ -48,7 +48,7 @@ Color RayTracer::Refraction(Primitive* object, Crash crash, Ray ray, int depth)
 	return RayTracing(refrRay, depth + 1);
 }
 
-Color RayTracer::Diffusion(Primitive* object, Crash crash, Ray ray, int depth)
+Color RayTracer::Diffusion(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
 {
 	Color ret;
 	for (auto light : scene->lights)
@@ -62,20 +62,20 @@ void RayTracer::Run(Scene* _scene)
 	int H = scene->GetImageH();
 	int W = scene->GetImageW();
 	Bmp* result = new Bmp(H, W);
-	Vector3 eyePosition = scene->camera.GetEyePosition();
+	Vector3 eyePosition = scene->camera->GetEyePosition();
 	concurrency::parallel_for(0, H, [&](int i)
 	{
 		for (int j = 0; j < W; ++j)
 		{
 			Color color;
-			Vector3 emitDirection = scene->camera.Emit(i, j);
+			Vector3 emitDirection = scene->camera->Emit(i, j);
 			color += RayTracing(Ray(eyePosition, emitDirection), 0);
 			color.Confine();
-			scene->camera.SetColor(i, j, color);
+			scene->camera->SetColor(i, j, color);
 		}
 	}
 	);
-	scene->camera.Output(result);
+	scene->camera->Output(result);
 	result->Output("result.bmp");
 	delete result;
 }
