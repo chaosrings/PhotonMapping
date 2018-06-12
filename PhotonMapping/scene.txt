@@ -1,0 +1,34 @@
+camera
+EyePosition=-2 2 0.5
+LookAt=	    0.6 1 -0.6
+LensWidth=  1
+LensHeight= 0.6
+
+AreaLight
+center=3 3 3
+dx=1.5 0 0 
+dy=0 1.5 0
+color=25 25 25
+
+
+Sphere
+center=0 6 -1.5
+R=0.5
+color=0.99 0.99 0.99
+diff=0
+refl=0.5
+refr=0.5
+rindex=1.7
+
+
+Plane
+center=0 0 -2
+normal=0 0 1
+HalfLength=100
+HalfWidth=100
+color=0.75 0.75 0.75
+diff=1
+refl=0
+refr=0
+
+

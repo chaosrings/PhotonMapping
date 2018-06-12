@@ -4,25 +4,30 @@
 #include <random>
 #include <iostream>
 #include <time.h>
+#include <regex>
+#include <fstream>
 int main()
 {
-	/*e.seed(time(nullptr));
+	e.seed(time(nullptr));
 
-	Scene* mainScene = new Scene();
-	mainScene->Initialize();
+
+	ifstream ifs("scene.txt");
+	string toParser = "";
+	string line;
+	while (getline(ifs, line))
+	{
+		line += '\n';
+		toParser += line;
+	}
+	Parser parser(move(toParser));
+	shared_ptr<Scene> mainScene = parser.scene();
 
 	
 	RayTracer* raytracer = new RayTracer();
-	raytracer->Run(mainScene);
+	raytracer->Run(mainScene.get());
 
 	delete raytracer;
-	delete mainScene;
-*/
 
-	string toParser = "AreaLight\ncenter=3.0 3.0 3.0\ndx=1.5 0 0\ndy=0 1.5 0\ncolor=25.0 25 25.0\n";
-	Parser parser(move(toParser));
-	toParser.clear();
-	auto s = parser.scene();
 	system("pause");
 	return 0;
 }

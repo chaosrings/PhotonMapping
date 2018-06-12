@@ -131,7 +131,6 @@ void Scene::Initialize()
 	plane->GetMaterial().refl = 0.f;
 	plane->GetMaterial().refr = 0.f;
 	objects.push_back(plane);
-
 }	
 
 

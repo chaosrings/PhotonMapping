@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <string>
 #include <memory>
+#include <regex>
 using  namespace std;
 struct Token
 {
@@ -30,8 +31,9 @@ public:
 	bool Match(const string& pattern);
 	bool Match(int _tag);
 	bool Finished() { return index == toParse.size(); }
-
-
+	
+	static std::regex fileRegex;
+	
 	shared_ptr<Scene> scene(); //Scene-> camera{light|primitive}*;
 	Vector3 vec3();
 	shared_ptr<Camera> camera(); //camera->....

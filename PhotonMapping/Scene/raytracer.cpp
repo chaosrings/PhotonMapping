@@ -14,6 +14,7 @@ Color RayTracer::RayTracing(Ray ray, int depth)
 		return light->GetColor();
 	if (object != nullptr)
 		return Shade(object, objCrash, ray, depth);
+	return ret;
 }
 
 Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)

@@ -9,4 +9,8 @@ public:
 	void rayDiff(Vector3 normal);
 	void rayRefl(Vector3 normal);
 	void rayRefr(Vector3 normal, float n);
+	
 };
+
+
+

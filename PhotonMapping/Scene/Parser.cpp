@@ -1,6 +1,10 @@
 #include "Parser.h"
 
 
+
+regex Parser::fileRegex=regex(".+\\.\\w+");   //¾²Ì¬³ÉÔ±³õÊ¼»¯
+/*  .Æ¥Åä×Ö·û£¬\\.Æ¥Åä. \\wÆ¥Åä×ÖÄ¸Êı×ÖÏÂ»®Ïß*/
+
 Token Parser::GetNextToken()
 {
 	while (toParse[index] == '\n' || toParse[index] == '\t' || toParse[index] == ' ')
@@ -69,6 +73,7 @@ bool Parser::Match(int _tag)
 		Move();
 		return true;
 	}
+	throw exception("syntax error!");
 	return false;
 }
 bool Parser::Match(const string& pattern)
@@ -97,13 +102,13 @@ Vector3 Parser::vec3()
 shared_ptr<Scene> Parser::scene()
 {
 	shared_ptr<Scene> mainScene(new Scene());
+	Move();
 	mainScene->SetCamera(camera());
 	while (!Finished())
 	{
-		currentToken= GetNextToken();
 		if (currentToken.value == "AreaLight" || currentToken.value == "PointLight")
 			mainScene->AddLight(light());
-		else if (currentToken.value == "sphere" || currentToken.value == "plane" || currentToken.value == "mesh")
+		else if (currentToken.value == "Sphere" || currentToken.value == "Plane" || currentToken.value == "Mesh")
 			mainScene->AddObject(primitive());
 	}
 	return mainScene;
@@ -111,6 +116,39 @@ shared_ptr<Scene> Parser::scene()
 
 shared_ptr<Camera> Parser::camera()
 {
+	Match("camera");
+	shared_ptr<Camera> ret(new Camera());
+	Match("EyePosition");
+	Match("=");
+	ret->SetEyePosition(vec3());
+	Match("LookAt");
+	Match("=");
+	ret->SetLookAt(vec3());
+	
+
+	
+	Match("LensWidth");
+	Match("=");
+	ret->SetLensW(stof(currentToken.value));
+	Move();
+
+	Match("LensHeight");
+	Match("=");
+	ret->SetLensH(stof(currentToken.value));
+	Move();
+	
+	if (currentToken.value=="OutFileName")
+	{
+		Move();
+		Match("=");
+		bool isFile= regex_match(currentToken.value, Parser::fileRegex);
+		if (isFile)
+			ret->SetOutFile(currentToken.value);
+		else
+			ret->SetOutFile("result.bmp");
+		Move();
+	}
+	
 	return shared_ptr<Camera>(new Camera());
 }
 shared_ptr<Light> Parser::light()
@@ -160,34 +198,38 @@ shared_ptr<Primitive> Parser::primitive()
 Material  Parser::material()
 {
 	Material ret;
-	if (currentToken.value == "texture")
-	{
-		Move();
-		Match("=");
-		//TODO
-	}
 	Match("color");
 	Match("=");
 	ret.color = vec3();
 
 	Match("diff");
 	Match("=");
-	ret.diff = stof(GetNextToken().value);
+	ret.diff = stof(currentToken.value);
+	Move();
 
 	Match("refl");
 	Match("=");
-	ret.refl = stof(GetNextToken().value);
-
+	ret.refl = stof(currentToken.value);
+	Move();
 	Match("refr");
 	Match("=");
-	ret.refr = stof(GetNextToken().value);
+	ret.refr = stof(currentToken.value);
+	Move();
 
 	if (ret.refr > EPS)
 	{
 		Match("rindex");
 		Match("=");
-		ret.rindex = stof(GetNextToken().value);
+		ret.rindex = stof(currentToken.value);
+		Move();
 	}
+	/*if (currentToken.value == "texture")
+	{
+		Move();
+		Match("=");
+		ret.texture=make_shared<Bmp>(new Bmp());
+		ret.texture->Input(currentToken.value);
+	}*/
 	return ret;
 }
 
@@ -198,7 +240,10 @@ shared_ptr<Sphere> Parser::sphere()
 	Match("center");
 	Match("=");
 	ret->SetCenter(vec3());
-	ret->SetRadius(stof(GetNextToken().value));
+	Match("R");
+	Match("=");
+	ret->SetRadius(stof(currentToken.value));
+	Move();
 	ret->SetMaterial(material());
 	return ret;
 }
@@ -214,9 +259,14 @@ shared_ptr<Plane> Parser::plane()
 	Match("normal");
 	Match("=");
 	ret->normal = vec3();
-
-	ret->SetHL(stof(GetNextToken().value));
-	ret->SetHW(stof(GetNextToken().value));
+	Match("HalfLength");
+	Match("=");
+	ret->SetHL(stof(currentToken.value));
+	Move();
+	Match("HalfWidth");
+	Match("=");
+	ret->SetHW(stof(currentToken.value));
+	Move();
 	ret->SetMaterial(material());
 	return ret;
 }

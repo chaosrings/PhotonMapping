@@ -1,14 +1,15 @@
 #pragma once
 #include"color.h"
 #include"vector3.h"
-
+#include "bmp.h"
+#include <memory>
 class Material {
 public:
 	Color color, absor;
 	float refl, refr;
 	float diff;
 	float rindex;
-
+	std::shared_ptr<Bmp>  texture;
 	Material(Color _color = Color(0.5f, 0.5f, 0.5f), Color _absor = Color(0.2f, 0.2f, 0.2f),
 		float _refl = 0.5f, float _refr = 0.5f, float _diff = 0.f, float _rindex = 1.6f) :
 		color(_color), absor(_absor),

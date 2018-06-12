@@ -2,7 +2,7 @@
 
 
 Vector3 Camera::Emit(float i, float j) {
-	return normal + dh * (2 * i / H - 1) + dw * (2 * j / W - 1);
+	return lookAt + dh * (2 * i / H - 1) + dw * (2 * j / W - 1);
 }
 void Camera::Output(Bmp* bmp) {
 	bmp->Initialize(H, W);
