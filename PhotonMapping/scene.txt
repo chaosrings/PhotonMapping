@@ -15,11 +15,11 @@ Sphere
 center=0 6 -1.5
 R=0.5
 color=0.99 0.99 0.99
-diff=0
-refl=0.5
-refr=0.5
+diff=0.5
+refl=0.2
+refr=0.3
 rindex=1.7
-
+texture=Texture\picture.bmp
 
 Plane
 center=0 0 -2

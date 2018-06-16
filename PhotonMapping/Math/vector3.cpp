@@ -53,11 +53,11 @@ float Vector3::Dot(const Vector3& term) {
 	return x * term.x + y * term.y + z * term.z;
 }
 
-float Vector3::Module2() {
+inline float Vector3::Module2() {
 	return x * x + y * y + z * z;
 }
 
-float Vector3::Module(){
+inline float Vector3::Module(){
 	return sqrt(x * x + y * y + z * z);
 }
 
@@ -75,7 +75,7 @@ float& Vector3::GetCoord(int axis){
 	return z;
 }
 
-Vector3 Vector3::GetUnitVector() {
+inline Vector3 Vector3::GetUnitVector() {
 	return *this / Module();
 }
 
@@ -97,10 +97,6 @@ Vector3 Vector3::GetAnVerticalVector() {
 
 bool Vector3::IsZeroVector() {
 	return fabs(x) < EPS && fabs(y) < EPS && fabs(z) < EPS;
-}
-
-void Vector3::Input(std::stringstream& fin) {
-	fin >> x >> y >> z;
 }
 
 Vector3 Vector3::Reflect(Vector3 N) {
@@ -130,20 +126,9 @@ Vector3 Vector3::Diffuse(Vector3 N) {
 	return (x*cos(theta)*sqrt(random2) + y*sin(theta)*sqrt(random2) + z*(1 - random2)).GetUnitVector();
 }
 
-Vector3 Vector3::Rotate(Vector3 axis, float theta) {
-	Vector3 ret;
-	float cost = cos(theta);
-	float sint = sin(theta);
-	ret.x += x * (axis.x * axis.x + (1 - axis.x * axis.x) * cost);
-	ret.x += y * (axis.x * axis.y * (1 - cost) - axis.z * sint);
-	ret.x += z * (axis.x * axis.z * (1 - cost) + axis.y * sint);
-	ret.y += x * (axis.y * axis.x * (1 - cost) + axis.z * sint);
-	ret.y += y * (axis.y * axis.y + (1 - axis.y * axis.y) * cost);
-	ret.y += z * (axis.y * axis.z * (1 - cost) - axis.x * sint);
-	ret.z += x * (axis.z * axis.x * (1 - cost) - axis.y * sint);
-	ret.z += y * (axis.z * axis.y * (1 - cost) + axis.x * sint);
-	ret.z += z * (axis.z * axis.z + (1 - axis.z * axis.z) * cost);
-	return ret;
+
+float IncludedAngle(Vector3 v1, Vector3 v2)
+{
+	float costheta = (v1.Dot(v2)) / (v1.Module()*v2.Module());
+	return acos(costheta);
 }
-
-

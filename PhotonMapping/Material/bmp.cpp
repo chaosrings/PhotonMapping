@@ -7,9 +7,6 @@
 
 using namespace std;
 
-Bmp::Bmp(int H, int W) {
-	Initialize(H, W);
-}
 
 Bmp::~Bmp() {
 	Release();

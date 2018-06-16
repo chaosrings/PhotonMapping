@@ -31,7 +31,7 @@ public:
 	bool Match(const string& pattern);
 	bool Match(int _tag);
 	bool Finished() { return index == toParse.size(); }
-	
+	bool isFilePathChar(char ch) { return ch == '.'|| ch == '\\' || ch == ':' || isalnum(ch); }
 	static std::regex fileRegex;
 	
 	shared_ptr<Scene> scene(); //Scene-> camera{light|primitive}*;

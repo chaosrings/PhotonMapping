@@ -12,7 +12,6 @@ public:
 
 	Vector3(float X = 0, float Y = 0, float Z = 0) : x(X), y(Y), z(Z) {}
 	~Vector3() {}
-
 	friend Vector3 operator + (const Vector3&, const Vector3&);
 	friend Vector3 operator - (const Vector3&, const Vector3&);
 	friend Vector3 operator * (const Vector3&, float);
@@ -34,9 +33,10 @@ public:
 	void AssRandomVector();
 	Vector3 GetAnVerticalVector();
 	bool IsZeroVector();
-	void Input(std::stringstream& fin);
 	Vector3 Reflect(Vector3 N);
 	Vector3 Refract(Vector3 N, float n);
 	Vector3 Diffuse(Vector3 normal);
-	Vector3 Rotate(Vector3 axis, float theta);
 };
+
+
+float IncludedAngle(Vector3, Vector3);

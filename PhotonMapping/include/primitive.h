@@ -40,32 +40,46 @@ public:
 	void SetMaterial(Material mat) { material = mat; }
 	Material& GetMaterial() { return material; }
 	virtual Crash Collide(Vector3 origin, Vector3 direction) = 0;  //子类必须实现Collide
+	virtual Color GetTexture(Vector3)  {
+		return Color(1, 1, 1);
+	}
 };
 
 class Sphere : public Primitive
 {
-public:
+private:
 	Vector3 center;
 	float radius;
+public:
+	Sphere(Vector3 _center = Vector3(), float _radius = 0.f) :Primitive(), center(_center), radius(_radius) {};
+	~Sphere() {}
+	
 	void SetCenter(Vector3 _center) { center = _center; }
 	void SetRadius(float r) { radius = r; }
-	Sphere(Vector3 _center=Vector3(),float _radius=0.f) :Primitive(),center(_center),radius(_radius) {};
-	~Sphere() {}
+	
+	Vector3 GetCenter() const  { return center; }
+	Vector3 GetRadius() const  { return radius; }
+	Color GetTexture(Vector3 normal) ;
 	Crash Collide(Vector3 origin, Vector3 direction);
 };
 
 class Plane :public Primitive
 {
-public:
+private:
 	Vector3 normal;
 	Vector3 center;
 	float  halfLength;
 	float  halfWidth;
-	void SetHL(float hl) {
-		halfLength = hl;
-	}
-	void SetHW(float hw) { halfWidth = hw; }
+public:
 	Plane(Vector3 _normal = Vector3(0, 0, 1), Vector3 _center = Vector3(0, 0, -2), float _hW = 100.f, float _hL = 100.f
-	) :Primitive(), normal(_normal),center(_center),halfWidth(_hW),halfLength(_hL) {}
+	) :Primitive(), normal(_normal.GetUnitVector()), center(_center), halfWidth(_hW), halfLength(_hL) {}
+
+	void SetHL(float hl) {halfLength = hl;}
+	void SetHW(float hw) { halfWidth = hw; }
+	Vector3 GetCenter() const { return center; }
+	Vector3 GetNormal() const { return normal; }
+	float GetHalfLength() const { return halfLength; }
+	float GetHalfWidth()const { return halfWidth; }
 	Crash Collide(Vector3 origin, Vector3 direction);
+	Color GetTexture(Vector3 pos);
 };

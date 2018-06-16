@@ -29,6 +29,12 @@ Crash Plane::Collide(Vector3 origin, Vector3 direction)
 	return crash;
 }
 
+Color Plane::GetTexture(Vector3 pos)
+{
+		
+}
+
+
 Crash  Sphere::Collide(Vector3 origin, Vector3 direction)
 {
 	Crash crash;
@@ -63,4 +69,12 @@ Crash  Sphere::Collide(Vector3 origin, Vector3 direction)
 	if (crash.front == false)
 		crash.normal = -crash.normal;
 	return crash;
+}
+
+Color Sphere::GetTexture(Vector3 normal)
+{
+	normal = normal.GetUnitVector();
+	float u = asin(normal.x) / PI + 0.5f;
+	float v = asin(normal.y) / PI + 0.5f;
+	return (this->material.texture)->GetSmoothColor(u, v);
 }

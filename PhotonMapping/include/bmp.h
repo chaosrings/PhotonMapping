@@ -55,7 +55,7 @@ class Bmp {
 	void Release();
 
 public:
-	Bmp(int H = 0, int W = 0);
+	Bmp(int H = 0, int W = 0) { Initialize(H, W);}
 	~Bmp();
 
 	int GetH() { return strInfo.biHeight; }

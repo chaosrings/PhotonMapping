@@ -16,7 +16,12 @@ Token Parser::GetNextToken()
 	Token ret;
 	if (isalpha(toParse[index]))
 	{
-		while (index < toParse.size() && isalpha(toParse[index]))
+		while (index < toParse.size() && isalnum(toParse[index]))
+		{
+			ret.value += toParse[index];
+			++index;
+		}
+		while(isFilePathChar(toParse[index]))
 		{
 			ret.value += toParse[index];
 			++index;
@@ -223,13 +228,14 @@ Material  Parser::material()
 		ret.rindex = stof(currentToken.value);
 		Move();
 	}
-	/*if (currentToken.value == "texture")
+	if (currentToken.value == "texture")
 	{
 		Move();
 		Match("=");
-		ret.texture=make_shared<Bmp>(new Bmp());
+		ret.texture=make_shared<Bmp>();
 		ret.texture->Input(currentToken.value);
-	}*/
+		Move();
+	}
 	return ret;
 }
 

@@ -21,6 +21,8 @@ Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray,
 {
 	Color ret;
 	Color material = object->GetMaterial().color;
+	if (object->GetMaterial().texture != nullptr)
+		material =material*object->GetTexture(crash.normal);
 	float diff = object->GetMaterial().diff, refl = object->GetMaterial().refl, refr = object->GetMaterial().refr;
 	if (diff > EPS)
 		ret += Diffusion(object, crash, ray, depth)*material*diff;
@@ -28,7 +30,6 @@ Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray,
 		ret += Reflection(object, crash, ray, depth)*material*refl;
 	if (refr > EPS)
 		ret += Refraction(object, crash, ray, depth)*material*refr;
-
 	return ret;
 }
 
@@ -62,7 +63,8 @@ void RayTracer::Run(Scene* _scene)
 	SetScene(_scene);
 	int H = scene->GetImageH();
 	int W = scene->GetImageW();
-	Bmp* result = new Bmp(H, W);
+	Bmp* result = new Bmp();
+	result->Initialize(H, W);
 	Vector3 eyePosition = scene->camera->GetEyePosition();
 	concurrency::parallel_for(0, H, [&](int i)
 	{
