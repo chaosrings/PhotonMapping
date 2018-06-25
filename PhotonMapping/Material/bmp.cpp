@@ -47,6 +47,7 @@ void Bmp::Input(std::string file) {
 	Release();
 
 	FILE *fpi = fopen(file.c_str(), "rb");
+	
 	word bfType;
 	fread(&bfType, 1, sizeof(word), fpi);
 	fread(&strHead, 1, sizeof(bITMAPFILEHEADER), fpi);

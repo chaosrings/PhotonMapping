@@ -148,7 +148,7 @@
     <ClInclude Include="include\color.h" />
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\light.h" />
-    <ClInclude Include="include\Parser.h" />
+    <ClInclude Include="include\parser.h" />
     <ClInclude Include="include\primitive.h" />
     <ClInclude Include="include\ray.h" />
     <ClInclude Include="include\raytracer.h" />
@@ -163,7 +163,7 @@
     <ClCompile Include="Scene\light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Primitive\primitive.cpp" />
-    <ClCompile Include="Scene\Parser.cpp" />
+    <ClCompile Include="Scene\parser.cpp" />
     <ClCompile Include="Scene\raytracer.cpp" />
     <ClCompile Include="Scene\scene.cpp" />
     <ClCompile Include="Math\vector3.cpp" />

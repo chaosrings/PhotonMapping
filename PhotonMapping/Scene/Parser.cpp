@@ -129,9 +129,6 @@ shared_ptr<Camera> Parser::camera()
 	Match("LookAt");
 	Match("=");
 	ret->SetLookAt(vec3());
-	
-
-	
 	Match("LensWidth");
 	Match("=");
 	ret->SetLensW(stof(currentToken.value));
@@ -153,8 +150,8 @@ shared_ptr<Camera> Parser::camera()
 			ret->SetOutFile("result.bmp");
 		Move();
 	}
-	
-	return shared_ptr<Camera>(new Camera());
+	ret->Update();
+	return ret;
 }
 shared_ptr<Light> Parser::light()
 {
@@ -221,7 +218,7 @@ Material  Parser::material()
 	ret.refr = stof(currentToken.value);
 	Move();
 
-	if (ret.refr > EPS)
+	if (currentToken.value=="rindex")
 	{
 		Match("rindex");
 		Match("=");
@@ -261,18 +258,19 @@ shared_ptr<Plane> Parser::plane()
 	Match("Plane");
 	Match("center");
 	Match("=");
-	ret->center = vec3();
+	ret->SetCenter(vec3());
 	Match("normal");
 	Match("=");
-	ret->normal = vec3();
-	Match("HalfLength");
+	ret->SetNormal(vec3());
+	Match("Length");
 	Match("=");
-	ret->SetHL(stof(currentToken.value));
+	ret->SetLength(stof(currentToken.value));
 	Move();
-	Match("HalfWidth");
+	Match("Width");
 	Match("=");
-	ret->SetHW(stof(currentToken.value));
+	ret->SetWidth(stof(currentToken.value));
 	Move();
 	ret->SetMaterial(material());
+	ret->UpdateTextureOrigin();
 	return ret;
 }

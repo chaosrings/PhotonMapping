@@ -23,12 +23,7 @@ public:
 	{
 		data.resize(H, std::vector<Color>(W, Color()));
 
-		lookAt = lookAt.GetUnitVector();
-		dw = lookAt.GetAnVerticalVector();
-		dh = dw * lookAt;
-		dw = dw * lensW / 2;
-		dh = dh * lensH / 2;      //BMP图片的(0,0)在左下角，向上，向右遍历
-
+		
 		outFileName = "result.bmp";
 	}
 	~Camera() {}
@@ -49,4 +44,11 @@ public:
 	Vector3 Emit(float i, float j);//发射光线
 	void Output(Bmp*);
 	void SetColor(size_t i, size_t j, Color color) { data[i][j] = color; }
+	void Update(){
+		lookAt = lookAt.GetUnitVector();
+		dw = lookAt.GetAnVerticalVector();
+		dh = dw * lookAt;
+		dw = dw * lensW / 2;
+		dh = dh * lensH / 2;      //BMP图片的(0,0)在左下角，向上，向右遍历
+	}
 };

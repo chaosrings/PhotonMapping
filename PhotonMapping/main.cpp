@@ -1,6 +1,6 @@
 #pragma once
 #include "raytracer.h"
-#include "Parser.h"
+#include "parser.h"
 #include <random>
 #include <iostream>
 #include <time.h>
@@ -21,13 +21,9 @@ int main()
 	}
 	Parser parser(move(toParser));
 	shared_ptr<Scene> mainScene = parser.scene();
-
-	
 	RayTracer* raytracer = new RayTracer();
 	raytracer->Run(mainScene.get());
-
 	delete raytracer;
-
 	system("pause");
 	return 0;
 }

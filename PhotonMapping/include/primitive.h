@@ -2,6 +2,7 @@
 #include"color.h"
 #include"vector3.h"
 #include "bmp.h"
+#include "ray.h"
 #include <memory>
 class Material {
 public:
@@ -39,8 +40,8 @@ public:
 	virtual ~Primitive() {};
 	void SetMaterial(Material mat) { material = mat; }
 	Material& GetMaterial() { return material; }
-	virtual Crash Collide(Vector3 origin, Vector3 direction) = 0;  //子类必须实现Collide
-	virtual Color GetTexture(Vector3)  {
+	virtual Crash Collide(Ray ray) = 0;  //子类必须实现Collide
+	virtual Color GetTexture(Crash)  {
 		return Color(1, 1, 1);
 	}
 };
@@ -59,8 +60,8 @@ public:
 	
 	Vector3 GetCenter() const  { return center; }
 	Vector3 GetRadius() const  { return radius; }
-	Color GetTexture(Vector3 normal) ;
-	Crash Collide(Vector3 origin, Vector3 direction);
+	Color GetTexture(Crash) ;
+	Crash Collide(Ray ray);
 };
 
 class Plane :public Primitive
@@ -68,18 +69,26 @@ class Plane :public Primitive
 private:
 	Vector3 normal;
 	Vector3 center;
-	float  halfLength;
-	float  halfWidth;
+	Vector3 textureOrigin;
+	float length;
+	float width;
+	
+	Vector3 u;   //纹理width
+	Vector3 v;  //纹理length
+
 public:
 	Plane(Vector3 _normal = Vector3(0, 0, 1), Vector3 _center = Vector3(0, 0, -2), float _hW = 100.f, float _hL = 100.f
-	) :Primitive(), normal(_normal.GetUnitVector()), center(_center), halfWidth(_hW), halfLength(_hL) {}
+	) :Primitive(), normal(_normal.GetUnitVector()), center(_center), width(_hW), length(_hL) {}
 
-	void SetHL(float hl) {halfLength = hl;}
-	void SetHW(float hw) { halfWidth = hw; }
+	void SetLength(float hl) {length = hl;}
+	void SetWidth(float hw) { width = hw; }
+	void SetCenter(Vector3 _center) { center = _center; }
+	void SetNormal(Vector3 _normal) { normal = _normal; }
 	Vector3 GetCenter() const { return center; }
 	Vector3 GetNormal() const { return normal; }
-	float GetHalfLength() const { return halfLength; }
-	float GetHalfWidth()const { return halfWidth; }
-	Crash Collide(Vector3 origin, Vector3 direction);
-	Color GetTexture(Vector3 pos);
+	float GetLength() const { return length; }
+	float GetWidth()const { return width; }
+	void UpdateTextureOrigin();
+	Crash Collide(Ray ray);
+	Color GetTexture(Crash);
 };

@@ -28,6 +28,7 @@ public:
 	float Module();
 	float Distance2(Vector3&);
 	float Distance(Vector3&) ;
+	float IncludedAngle(Vector3 v2);
 	float& GetCoord(int axis);
 	Vector3 GetUnitVector();
 	void AssRandomVector();

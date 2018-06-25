@@ -8,7 +8,7 @@ Color RayTracer::RayTracing(Ray ray, int depth)
 		return Color();
 	auto object = scene->FindNearestObject(ray.origin, ray.direction);
 	if (object != nullptr)
-		objCrash = object->Collide(ray.origin, ray.direction);
+		objCrash = object->Collide(ray);
 	auto  light = scene->FindNearestLight(ray.origin, ray.direction);
 	if (light != nullptr&& (object==nullptr||light->crashDist<objCrash.dist))
 		return light->GetColor();
@@ -21,15 +21,15 @@ Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray,
 {
 	Color ret;
 	Color material = object->GetMaterial().color;
-	if (object->GetMaterial().texture != nullptr)
-		material =material*object->GetTexture(crash.normal);
+	if (object->GetMaterial().texture.get()!=nullptr)
+		material =material*(object->GetTexture(crash));
 	float diff = object->GetMaterial().diff, refl = object->GetMaterial().refl, refr = object->GetMaterial().refr;
 	if (diff > EPS)
-		ret += Diffusion(object, crash, ray, depth)*material*diff;
+		ret +=material*Diffusion(object, crash, ray, depth)*diff;
 	if (refl > EPS)
-		ret += Reflection(object, crash, ray, depth)*material*refl;
+		ret +=material*Reflection(object, crash, ray, depth)*refl;
 	if (refr > EPS)
-		ret += Refraction(object, crash, ray, depth)*material*refr;
+		ret += material*Refraction(object, crash, ray, depth)*refr;
 	return ret;
 }
 

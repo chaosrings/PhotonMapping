@@ -69,6 +69,12 @@ float Vector3::Distance(Vector3& term) {
 	return (term - *this).Module();
 }
 
+float Vector3::IncludedAngle(Vector3 v2)
+{
+	float costheta = (this->Dot(v2)) / (this->Module()*v2.Module());
+	return acos(costheta);
+}
+
 float& Vector3::GetCoord(int axis){
 	if (axis == 0) return x;
 	if (axis == 1) return y;
@@ -127,8 +133,3 @@ Vector3 Vector3::Diffuse(Vector3 N) {
 }
 
 
-float IncludedAngle(Vector3 v1, Vector3 v2)
-{
-	float costheta = (v1.Dot(v2)) / (v1.Module()*v2.Module());
-	return acos(costheta);
-}

@@ -1,9 +1,18 @@
 #include "primitive.h"
-
-Crash Plane::Collide(Vector3 origin, Vector3 direction)
+void Plane::UpdateTextureOrigin()
+{
+	u = normal.GetAnVerticalVector();
+	v = normal*u;
+	this->textureOrigin = center - u*(length/2) - v*(width/2);
+	u = u*width;
+	v = v*length;
+}
+Crash Plane::Collide(Ray ray)
 {
 	Crash crash;
-	direction = direction.GetUnitVector();
+	
+	auto direction = ray.direction.GetUnitVector();
+	auto origin = ray.origin;
 	normal = normal.GetUnitVector();
 	float t1 = normal.Dot(center - origin);
 	if (t1 > EPS)   //与0比较为何不可？
@@ -19,7 +28,7 @@ Crash Plane::Collide(Vector3 origin, Vector3 direction)
 	}
 	crash.position = origin + direction*t;
 	crash.dist = t;
-	if (crash.position.Distance2(center)>halfLength*halfLength+halfWidth*halfWidth)
+	if ((crash.position - textureOrigin).Dot(u) > width*width || (crash.position - textureOrigin).Dot(v)>length*length)
 	{
 		crash.crashed = false;
 		return crash;
@@ -29,16 +38,24 @@ Crash Plane::Collide(Vector3 origin, Vector3 direction)
 	return crash;
 }
 
-Color Plane::GetTexture(Vector3 pos)
+Color Plane::GetTexture(Crash crash)
 {
-		
+	auto pos = crash.position;
+	float tu = (pos - textureOrigin).Dot(u) / (width*width);
+	float tv = (pos - textureOrigin).Dot(v) / (length*length);
+	
+	Color ret;
+	if (material.texture.get()!= nullptr)
+		ret = material.texture->GetSmoothColor(clamp<float>(tu, 0.f, 1.f), clamp<float>(tv, 0.f, 1.f));
+	return ret;
 }
 
 
-Crash  Sphere::Collide(Vector3 origin, Vector3 direction)
+Crash  Sphere::Collide(Ray ray)
 {
 	Crash crash;
-	direction = direction.GetUnitVector();
+	auto direction = ray.direction.GetUnitVector();
+	auto origin = ray.origin;
 	Vector3 P = origin - center;
 	float b = -P.Dot(direction);
 	float det = b * b - P.Module2() + radius * radius;
@@ -71,8 +88,9 @@ Crash  Sphere::Collide(Vector3 origin, Vector3 direction)
 	return crash;
 }
 
-Color Sphere::GetTexture(Vector3 normal)
+Color Sphere::GetTexture(Crash crash)
 {
+	auto normal = crash.normal;
 	normal = normal.GetUnitVector();
 	float u = asin(normal.x) / PI + 0.5f;
 	float v = asin(normal.y) / PI + 0.5f;
