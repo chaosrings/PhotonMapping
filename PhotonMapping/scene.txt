@@ -11,15 +11,6 @@ dy=0 1.5 0
 color=30 30 30
 
 
-Sphere
-center=0 6 -1.5
-R=0.5
-color=0.99 0.99 0.99
-diff=1
-refl=0
-refr=0
-rindex=1.7
-texture=Texture\picture.bmp
 
 Sphere
 center=0 4.2 -1.5
@@ -38,15 +29,4 @@ diff=0
 refl=1
 refr=0
 rindex=1.7
-
-
-Plane
-center=0 6 -2
-normal=0 0 1
-Length=5
-Width=5
-color=0.75 0.75 0.75
-diff=0.5
-refl=0.5
-refr=0
 

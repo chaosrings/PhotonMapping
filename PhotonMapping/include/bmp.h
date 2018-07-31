@@ -66,6 +66,6 @@ public:
 	void Initialize(int H, int W);
 	void Input(std::string file);
 	void Output(std::string file);
-	Color GetSmoothColor(float u,float v);
+	Color GetSmoothColor(double u,double v);
 };
 

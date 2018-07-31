@@ -95,11 +95,11 @@ bool Parser::Match(const string& pattern)
 Vector3 Parser::vec3()
 {
 	Vector3 ret;
-	ret.x = stof(currentToken.value);
+	ret.x = stod(currentToken.value);
 	Move();
-	ret.y = stof(currentToken.value);
+	ret.y = stod(currentToken.value);
 	Move();
-	ret.z = stof(currentToken.value);
+	ret.z = stod(currentToken.value);
 	Move();
 	return ret;
 }

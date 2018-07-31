@@ -2,13 +2,12 @@
 Color Light::DirectIllumination(Crash crash,const shared_ptr<Primitive>object, Vector3 toLight) //计算直接光照
 {
 	Color ret;
-	float dist2 = toLight.Module2();
+	double dist2 = toLight.Module2();
 	toLight = toLight.GetUnitVector();
-	float dot = toLight.Dot(crash.normal);
-
+	double dot = toLight.Dot(crash.normal);
 	if (dot > EPS)
 	{
-		float factor = dot/dist2;
+		double factor = dot/dist2;
 		ret += color*factor;
 	}
 	return ret;
@@ -18,9 +17,9 @@ Color Light::DirectIllumination(Crash crash,const shared_ptr<Primitive>object, V
 bool AreaLight::Collide(Vector3 origin, Vector3 direction) {
 	direction = direction.GetUnitVector();
 	Vector3 N = (dx * dy).GetUnitVector();
-	float d = N.Dot(direction);
+	double d = N.Dot(direction);
 	if (fabs(d) < EPS) return false;
-	float l = (N * center.Dot(N) - origin).Dot(N) / d;
+	double l = (N * center.Dot(N) - origin).Dot(N) / d;
 	if (l < EPS) return false;
 
 	Vector3 C = (origin + direction * l) - center;
@@ -47,18 +46,18 @@ Color AreaLight::GetIrradiance(Crash crash, const shared_ptr<Primitive> object, 
 		for (int j = -2; j < 2; j++)
 		{
 			Vector3 toLight = center - crash.position + dx * ((RandomRealZeroOne() + i) / 2) + dy * ((RandomRealZeroOne() + j) / 2);
-			float dist = toLight.Module();
-			bool shade = false;
+			double dist = toLight.Module();
+			bool obscured = false;
 			for (auto pri : primitives)
 			{
-				Crash curCrash = pri->Collide(crash.position, toLight);
+				Crash curCrash = pri->Collide(Ray(crash.position, toLight));
 				if (curCrash.crashed && curCrash.dist < dist)
 				{
-					shade = true;
+					obscured = true;
 					break;
 				}
 			}
-			if (shade == false)
+			if (obscured == false)
 				ret += DirectIllumination(crash, object, toLight);
 		}
 	}

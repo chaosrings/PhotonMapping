@@ -46,8 +46,8 @@ void Bmp::Release() {
 void Bmp::Input(std::string file) {
 	Release();
 
-	FILE *fpi = fopen(file.c_str(), "rb");
-	
+	FILE *fpi; 
+	fopen_s(&fpi, file.c_str(), "rb");
 	word bfType;
 	fread(&bfType, 1, sizeof(word), fpi);
 	fread(&strHead, 1, sizeof(bITMAPFILEHEADER), fpi);
@@ -72,8 +72,8 @@ void Bmp::Input(std::string file) {
 }
 
 void Bmp::Output(std::string file) {
-	FILE *fpw = fopen(file.c_str(), "wb");
-
+	FILE *fpw;
+	fopen_s(&fpw, file.c_str(), "wb");
 	word bfType = 0x4d42;
 	fwrite(&bfType, 1, sizeof(word), fpw);
 	fwrite(&strHead, 1, sizeof(bITMAPFILEHEADER), fpw);
@@ -95,13 +95,13 @@ void Bmp::SetColor(int i, int j, Color col) {
 	ima[i][j].blue = (int)(col.b * 255);
 }
 
-Color Bmp::GetSmoothColor(float u, float v) {
-	float U = (u - floor(u)) * strInfo.biHeight;
-	float V = (v - floor(v)) * strInfo.biWidth;
+Color Bmp::GetSmoothColor(double u, double v) {
+	double U = (u - floor(u)) * strInfo.biHeight;
+	double V = (v - floor(v)) * strInfo.biWidth;
 	int U1 = (int)floor(U + EPS), U2 = U1 + 1;
 	int V1 = (int)floor(V + EPS), V2 = V1 + 1;
-	float rat_U = U2 - U;
-	float rat_V = V2 - V;
+	double rat_U = U2 - U;
+	double rat_V = V2 - V;
 	if (U1 < 0) U1 = strInfo.biHeight - 1; if (U2 == strInfo.biHeight) U2 = 0;
 	if (V1 < 0) V1 = strInfo.biWidth - 1; if (V2 == strInfo.biWidth) V2 = 0;
 	Color ret;

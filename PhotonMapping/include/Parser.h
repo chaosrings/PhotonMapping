@@ -1,5 +1,6 @@
 #pragma once
 #include "scene.h"
+#include "objReader.h"
 #include <ctype.h>
 #include <string>
 #include <memory>
@@ -17,7 +18,7 @@ class Parser
 private:
 	Token currentToken;
 	string toParse;
-	int index;
+	unsigned int index;
 public:
 	Parser() { index = 0; }
 	Parser(const string &str) { toParse = str; index = 0; }

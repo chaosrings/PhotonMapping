@@ -8,36 +8,36 @@
 class Vector3 
 {
 public:
-	float x, y, z;
+	double x, y, z;
 
-	Vector3(float X = 0, float Y = 0, float Z = 0) : x(X), y(Y), z(Z) {}
+	Vector3(double X = 0, double Y = 0, double Z = 0) : x(X), y(Y), z(Z) {}
 	~Vector3() {}
 	friend Vector3 operator + (const Vector3&, const Vector3&);
 	friend Vector3 operator - (const Vector3&, const Vector3&);
-	friend Vector3 operator * (const Vector3&, float);
-	friend Vector3 operator / (const Vector3&, float);
+	friend Vector3 operator * (const Vector3&, double);
+	friend Vector3 operator / (const Vector3&, double);
 	friend Vector3 operator * (const Vector3&, const Vector3&); //cross product
 	friend Vector3& operator += (Vector3&, const Vector3&);
 	friend Vector3& operator -= (Vector3&, const Vector3&);
-	friend Vector3& operator *= (Vector3&,  float);
-	friend Vector3& operator /= (Vector3&,  float);
+	friend Vector3& operator *= (Vector3&,  double);
+	friend Vector3& operator /= (Vector3&,  double);
 	friend Vector3& operator *= (Vector3&, const Vector3&);
 	friend Vector3 operator - (const Vector3&);
-	float Dot(const Vector3&);
-	float Module2();
-	float Module();
-	float Distance2(Vector3&);
-	float Distance(Vector3&) ;
-	float IncludedAngle(Vector3 v2);
-	float& GetCoord(int axis);
+	double Dot(const Vector3&);
+	double Module2();
+	double Module();
+	double Distance2(Vector3&);
+	double Distance(Vector3&) ;
+	double IncludedAngle(Vector3 v2);
+	double& GetCoord(int axis);
 	Vector3 GetUnitVector();
 	void AssRandomVector();
 	Vector3 GetAnVerticalVector();
 	bool IsZeroVector();
 	Vector3 Reflect(Vector3 N);
-	Vector3 Refract(Vector3 N, float n);
+	Vector3 Refract(Vector3 N, double n);
 	Vector3 Diffuse(Vector3 normal);
 };
 
 
-float IncludedAngle(Vector3, Vector3);
+double IncludedAngle(Vector3, Vector3);

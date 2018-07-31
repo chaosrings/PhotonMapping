@@ -1,9 +1,10 @@
 #include "common.h"
 
-const float EPS= 0.0001f;
-const float PI= 3.1415926535897932384626;
-std::default_random_engine e(time(nullptr));
-std::uniform_real_distribution<float> u(0, 1);
+const double EPS= 0.000001f;
+const double PI= 3.1415926535897932384626;
+const double INF = 10000000.f;
+std::default_random_engine e(static_cast<unsigned int>(time(nullptr)));
+std::uniform_real_distribution<double> u(0, 1);
 
 const int maxEmitPhoton = 1000000;
 const int maxPhotonTracingDepth = 10;

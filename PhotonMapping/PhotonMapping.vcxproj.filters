@@ -48,6 +48,21 @@
     <ClInclude Include="include\parser.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\sphere.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\triangle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\polyhedron.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KDTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +96,30 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Scene\parser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive\sphere.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\aabb.h">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerations\aabb.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive\triangle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\objReader.h">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\objReader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerations\KDTree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive\polyhedron.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

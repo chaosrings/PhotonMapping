@@ -15,7 +15,7 @@ protected:
 	Color color;
 	
 public:
-	float crashDist;
+	double crashDist;
 	Light(Color _color = Color(25.f,25.f, 25.f)) :color(_color){};
 	~Light() {}
 	

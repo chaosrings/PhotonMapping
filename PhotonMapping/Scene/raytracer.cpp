@@ -1,8 +1,15 @@
 #include "raytracer.h"
+#include <iostream>
+#define SHOWPROGRESS
+#ifdef SHOWPROGRESS
+#include <Windows.h>
+
+CRITICAL_SECTION cs;
+#endif // SHOWPROGRESS
+
 
 Color RayTracer::RayTracing(Ray ray, int depth)
 {
-	Color ret;
 	Crash objCrash;
 	if (depth > maxRayTracingDepth)
 		return Color();
@@ -14,7 +21,7 @@ Color RayTracer::RayTracing(Ray ray, int depth)
 		return light->GetColor();
 	if (object != nullptr)
 		return Shade(object, objCrash, ray, depth);
-	return ret;
+	return Color();
 }
 
 Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
@@ -23,7 +30,7 @@ Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray,
 	Color material = object->GetMaterial().color;
 	if (object->GetMaterial().texture.get()!=nullptr)
 		material =material*(object->GetTexture(crash));
-	float diff = object->GetMaterial().diff, refl = object->GetMaterial().refl, refr = object->GetMaterial().refr;
+	double diff = object->GetMaterial().diff, refl = object->GetMaterial().refl, refr = object->GetMaterial().refr;
 	if (diff > EPS)
 		ret +=material*Diffusion(object, crash, ray, depth)*diff;
 	if (refl > EPS)
@@ -43,7 +50,7 @@ Color RayTracer::Reflection(const shared_ptr<Primitive> object, Crash crash,Ray 
 Color RayTracer::Refraction(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
 {
 	Color ret;
-	float n = object->GetMaterial().rindex;
+	double n = object->GetMaterial().rindex;
 	if (crash.front)
 		n = 1 / n;
 	Ray refrRay = Ray(crash.position, ray.direction.Refract(crash.normal, n));
@@ -60,12 +67,17 @@ Color RayTracer::Diffusion(const shared_ptr<Primitive> object, Crash crash, Ray 
 
 void RayTracer::Run(Scene* _scene)
 {
+#ifdef SHOWPROGRESS
+	InitializeCriticalSection(&cs);
+#endif // SHOWPROGRESS
+
 	SetScene(_scene);
 	int H = scene->GetImageH();
 	int W = scene->GetImageW();
 	Bmp* result = new Bmp();
 	result->Initialize(H, W);
 	Vector3 eyePosition = scene->camera->GetEyePosition();
+	int count = 0;
 	concurrency::parallel_for(0, H, [&](int i)
 	{
 		for (int j = 0; j < W; ++j)
@@ -76,7 +88,18 @@ void RayTracer::Run(Scene* _scene)
 			color.Confine();
 			scene->camera->SetColor(i, j, color);
 		}
+#ifdef SHOWPROGRESS
+		EnterCriticalSection(&cs);
+#endif // SHOWPROGRESS
+		++count;
+		std::cout << double(count) / double(H)<< std::endl;
+		std::cout << "\r";
+#ifdef SHOWPROGRESS
+		LeaveCriticalSection(&cs);
+#endif // SHOWPROGRESS
 	}
+
+
 	);
 	scene->camera->Output(result);
 	result->Output("result.bmp");

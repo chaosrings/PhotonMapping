@@ -4,6 +4,9 @@
 #include "bmp.h"
 #include "vector3.h"
 #include "primitive.h"
+#include "triangle.h"
+#include "sphere.h"
+#include "polyhedron.h"
 #include "common.h"
 #include <vector>
 #include <string>
@@ -24,7 +27,6 @@ public:
 	const vector<shared_ptr<Light>> GetLights() { return lights; }
 	const vector<shared_ptr<Primitive>>  GetObjects() { return objects; }
 	shared_ptr<Primitive> FindNearestObject(Vector3 origin, Vector3 direction);
-	Crash GetFirstCrash(Vector3 origin, Vector3 direction);
 	shared_ptr<Light>     FindNearestLight(Vector3 origin, Vector3 direction);
 	void SetCamera(shared_ptr<Camera> _camera) { camera = _camera; }
 	void AddObject(shared_ptr<Primitive> _obj) { objects.push_back(_obj); }

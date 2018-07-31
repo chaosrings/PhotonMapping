@@ -91,7 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\ashone\Documents\Visual Studio 2017\Projects\PhotonMapping\PhotonMapping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ashone\Documents\Visual Studio 2017\Projects\TinyEngine\PhotonMapping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,7 +118,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\ashone\Documents\Visual Studio 2017\Projects\PhotonMapping\PhotonMapping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\ashone\Documents\Visual Studio 2017\Projects\TinyEngine\PhotonMapping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,20 +144,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\KDTree.h" />
     <ClInclude Include="include\bmp.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\color.h" />
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\light.h" />
     <ClInclude Include="include\parser.h" />
+    <ClInclude Include="include\polyhedron.h" />
     <ClInclude Include="include\primitive.h" />
     <ClInclude Include="include\ray.h" />
     <ClInclude Include="include\raytracer.h" />
     <ClInclude Include="include\scene.h" />
+    <ClInclude Include="include\sphere.h" />
+    <ClInclude Include="include\triangle.h" />
     <ClInclude Include="include\vector3.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Accelerations\aabb.cpp" />
+    <ClCompile Include="Accelerations\KDTree.cpp" />
+    <ClCompile Include="include\aabb.h" />
+    <ClCompile Include="include\objReader.h" />
     <ClCompile Include="Material\bmp.cpp" />
+    <ClCompile Include="Objects\objReader.cpp" />
+    <ClCompile Include="Primitive\polyhedron.cpp" />
+    <ClCompile Include="Primitive\sphere.cpp" />
+    <ClCompile Include="Primitive\triangle.cpp" />
     <ClCompile Include="Scene\camera.cpp" />
     <ClCompile Include="Material\color.cpp" />
     <ClCompile Include="common.cpp" />
