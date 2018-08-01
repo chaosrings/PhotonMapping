@@ -28,29 +28,20 @@ void RunRayTracer()
 	//加一个测试三角形
 	{
 		shared_ptr<Triangle> testTriangle(new Triangle(Vector3(-10.f, -10.f, -3.f), Vector3(10.f, 10.f, -3.f), Vector3(-10.f, 10.f, -3.f)));
+		testTriangle->normal = Vector3(0, 0, 1);
 		testTriangle->GetMaterial().refl = 0.0f;
 		testTriangle->GetMaterial().refr = 0.f;
 		testTriangle->GetMaterial().diff = 1.f;
 		testTriangle->GetMaterial().color = Color(1.f, 1.f, 1.f);
+		testTriangle->vertexNormals[0]= testTriangle->vertexNormals[1]= testTriangle->vertexNormals[2]=Vector3(0, 0, 1);
 		mainScene->AddObject(testTriangle);
 	}
-	//暴力加三角形
-	/*{
-		SimpleObjReader reader;
-		vector<Triangle> ans = reader.ReadObjFile("Objects\\bunny.obj");
-		Vector3 offset(0.0, 7.5,-1.5);
-		for (auto tri : ans)
-		{
-			shared_ptr<Triangle> tri_ptr(new Triangle(tri.vertex0 + offset, tri.vertex1 + offset, tri.vertex2 + offset));
-			tri_ptr->GetMaterial().refl = 0.5;
-			tri_ptr->GetMaterial().refr = 0.5;
-			tri_ptr->GetMaterial().diff = 0.0;
-			tri_ptr->GetMaterial().color = Color(1.f, 1.f, 1.f);
-			mainScene->AddObject(tri_ptr);
-		}
-	}*/
 	{
-		shared_ptr<Polyhedron> tp(new Polyhedron("Objects\\bunny2.obj",Vector3(0,7.5,-1.5),3.0));
+		shared_ptr<Polyhedron> tp(new Polyhedron("Objects\\bunny.obj",Vector3(0,7,-1.5),3.0));
+		tp->GetMaterial().refr =0;
+		tp->GetMaterial().refl =0;
+		tp->GetMaterial().diff = 1;
+		tp->GetMaterial().color = Color(0.99,0.99,0.99);
 		mainScene->AddObject(tp);
 	}
 	RayTracer* raytracer = new RayTracer();

@@ -92,6 +92,7 @@ void RayTracer::Run(Scene* _scene)
 		EnterCriticalSection(&cs);
 #endif // SHOWPROGRESS
 		++count;
+		system("cls");
 		std::cout << double(count) / double(H)<< std::endl;
 		std::cout << "\r";
 #ifdef SHOWPROGRESS

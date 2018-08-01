@@ -57,11 +57,12 @@ Crash Triangle::Collide(Ray ray)
 	u *= fInvDet;
 	v *= fInvDet;
 
-
+	Vector3 normal = vertexNormals[0] * (1 - u - v) + vertexNormals[1] * u + vertexNormals[2] * v;
+	normal = normal.GetUnitVector();
 	ans.crashed = true;
 	ans.front = dir.Dot(this->normal) < 0;
-	ans.normal = ans.front? this->normal : -this->normal;
-	ans.dist = t;
-	ans.position = origin + dir*t;
+	ans.position = vertex0*(1 - u - v) + vertex1*u + vertex2*v;
+	ans.normal = ans.front ? normal : -normal;
+	ans.dist = ans.position.Distance(origin);
 	return ans;
 }	

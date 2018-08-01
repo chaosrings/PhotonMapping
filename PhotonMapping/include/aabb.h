@@ -6,7 +6,7 @@
 class AABB
 {
 public:
-	AABB(Vector3 minC=Vector3(-INF,-INF,-INF), Vector3 maxC=Vector3(INF,INF,INF)):minCoord(minC),maxCoord(maxC){}
+	AABB(Vector3 minC=Vector3(INF,INF,INF), Vector3 maxC=Vector3(-INF,-INF,-INF)):minCoord(minC),maxCoord(maxC){}
 	bool Hit(Ray ray);
 	void Extend(AABB another);
 	int GetLongestAxis();

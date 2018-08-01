@@ -19,20 +19,25 @@ struct KDNode
 class KDTree
 {
 private:
+	int height;
 	KDNode* root;
-	KDNode* buildTree(vector<Triangle*> & tris, int depth) const;
+	KDNode* buildTree(vector<Triangle*> * tris, int depth);
 	void Collide(KDNode* t,Ray& ray, Crash& crashResult);
-	void makeEmpty(KDNode* &t);
+	void makeEmpty(KDNode*& t);
 public:
+	
 	KDTree()
 	{
+		height = 0;
 		root = nullptr;
 	}
-	KDTree(vector<Triangle*>& triangles)
+	KDTree(vector<Triangle*>* triangles)
 	{
+		height = 0;
 		root = buildTree(triangles, 0);
 	}
-	void Build(vector<Triangle*>& triangles);
+	int GetHeight() { return height; }
+	void Build(vector<Triangle*>* triangles);
 	~KDTree();
 	void Collide(Ray& ray,Crash& crashResult);
 };

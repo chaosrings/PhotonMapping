@@ -15,7 +15,7 @@ color=30 30 30
 Sphere
 center=0 4.2 -1.5
 R=0.5
-color=0.99 0 0.99
+color=0.99 1 0.99
 diff=0
 refl=1
 refr=0

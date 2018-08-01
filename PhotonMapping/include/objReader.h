@@ -12,6 +12,7 @@ class SimpleObjReader
 public:
 	static vector<string>  SplitString(const string& target, char splitCh);
 	static Vector3 ReadOneVertex(const vector<string>& curElements);
-	static Triangle ReadOneTriangle(const vector<string>& curElements, const vector<Vector3>& vertices);
-	static  vector <Triangle> ReadObjFile(string filepath);
+	static Triangle ReadOneTriangle(const vector<string>& curElements, const vector<Vector3>& vertices, const vector<Vector3>& normals ,Vector3 offset, double scale);
+	static  vector<Triangle> ReadObjFile(string filepath,Vector3 offset,double scale);
+	static vector<Triangle>  ReadObjEx(string filepath, Vector3 offset, double scale);
 };
