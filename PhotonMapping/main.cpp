@@ -37,10 +37,10 @@ void RunRayTracer()
 		mainScene->AddObject(testTriangle);
 	}
 	{
-		shared_ptr<Polyhedron> tp(new Polyhedron("Objects\\bunny.obj",Vector3(0,7,-1.5),3.0));
-		tp->GetMaterial().refr =0;
+		shared_ptr<Polyhedron> tp(new Polyhedron("Objects\\dragon.obj",Vector3(0,7,-1.5),3.0));
+		tp->GetMaterial().refr =0.9;
 		tp->GetMaterial().refl =0;
-		tp->GetMaterial().diff = 1;
+		tp->GetMaterial().diff = 0.1;
 		tp->GetMaterial().color = Color(0.99,0.99,0.99);
 		mainScene->AddObject(tp);
 	}

@@ -1,6 +1,6 @@
 #include "raytracer.h"
 #include <iostream>
-#define SHOWPROGRESS
+//#define SHOWPROGRESS
 #ifdef SHOWPROGRESS
 #include <Windows.h>
 
@@ -90,12 +90,10 @@ void RayTracer::Run(Scene* _scene)
 		}
 #ifdef SHOWPROGRESS
 		EnterCriticalSection(&cs);
-#endif // SHOWPROGRESS
 		++count;
 		system("cls");
 		std::cout << double(count) / double(H)<< std::endl;
 		std::cout << "\r";
-#ifdef SHOWPROGRESS
 		LeaveCriticalSection(&cs);
 #endif // SHOWPROGRESS
 	}

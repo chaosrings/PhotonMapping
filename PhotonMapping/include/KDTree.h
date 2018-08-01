@@ -36,6 +36,7 @@ public:
 		height = 0;
 		root = buildTree(triangles, 0);
 	}
+	AABB GetBoundingBox(const vector<Triangle*>& tris);
 	int GetHeight() { return height; }
 	void Build(vector<Triangle*>* triangles);
 	~KDTree();
