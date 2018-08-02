@@ -1,0 +1,60 @@
+camera
+EyePosition=5 6 3
+LookAt=	    -1 0 -1
+LensWidth=  1
+LensHeight= 0.6
+
+AreaLight
+center=3 5.6 3
+dx=3 0 0 
+dy=0 3 0
+color=16 16 16
+
+
+Sphere
+center=0 4.2 -1.5
+R=0.5
+color=1 1 1
+diff=0
+refl=1
+refr=0
+rindex=1.7
+
+Sphere
+center=1 5.2 -1.5
+R=0.2
+color=0.75 0.99 0
+diff=0
+refl=1
+refr=0
+rindex=1.7
+
+Sphere
+center=1 4.5 -1.5
+R=0.5
+color=0.75 0.99 0.99
+diff=1
+refl=0
+refr=0
+rindex=1.7
+texture=Texture\picture.bmp
+
+Mesh
+obj=Objects\dragon.obj
+rotation=90 0 0
+offset=0 7 -0.5
+scale=3.0
+color=1 0.8431 0.1
+diff=1
+refl=0
+refr=0
+
+Mesh
+obj=Objects\horse.obj
+rotation=90 0 0
+offset=2 6.5 -0.5
+scale=2.0
+color=1 1 0.5
+diff=0
+refl=0
+refr=1
