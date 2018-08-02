@@ -1,7 +1,5 @@
 #include "triangle.h"
-
-
-AABB Triangle::GetAABB()
+AABB Triangle::GetAABB() const
 {
 	AABB aabb;
 	for (int i = 0; i < 3; ++i)
@@ -11,8 +9,7 @@ AABB Triangle::GetAABB()
 	}
 	return aabb;
 }
-
-Crash Triangle::Collide(Ray ray)
+Crash Triangle::Collide(Ray ray) const
 {
 
 	Crash ans;

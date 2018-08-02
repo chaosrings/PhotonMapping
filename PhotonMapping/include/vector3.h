@@ -23,20 +23,21 @@ public:
 	friend Vector3& operator /= (Vector3&,  double);
 	friend Vector3& operator *= (Vector3&, const Vector3&);
 	friend Vector3 operator - (const Vector3&);
-	double Dot(const Vector3&);
-	double Module2();
-	double Module();
-	double Distance2(Vector3&);
-	double Distance(Vector3&) ;
+	double Dot(const Vector3&) const;
+	double Module2() const;
+	double Module() const;
+	double Distance2(Vector3&) const;
+	double Distance(Vector3&) const ;
 	double IncludedAngle(Vector3 v2);
 	double& GetCoord(int axis);
-	Vector3 GetUnitVector();
+	double  GetCoord(int axis) const;
+	Vector3 GetUnitVector() const;
 	void AssRandomVector();
-	Vector3 GetAnVerticalVector();
-	bool IsZeroVector();
-	Vector3 Reflect(Vector3 N);
-	Vector3 Refract(Vector3 N, double n);
-	Vector3 Diffuse(Vector3 normal);
+	Vector3 GetAnVerticalVector() const;
+	bool IsZeroVector() const;
+	Vector3 Reflect(Vector3 N) const;
+	Vector3 Refract(Vector3 N, double n) const;
+	Vector3 Diffuse(Vector3 normal) const;
 };
 
 

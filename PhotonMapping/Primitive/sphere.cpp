@@ -1,5 +1,5 @@
 #include "sphere.h"
-Crash  Sphere::Collide(Ray ray)
+Crash  Sphere::Collide(Ray ray) const
 {
 	Crash crash;
 	auto direction = ray.direction.GetUnitVector();
@@ -36,6 +36,14 @@ Crash  Sphere::Collide(Ray ray)
 	return crash;
 }
 
+AABB Sphere::GetAABB() const
+{
+	AABB ans;
+	ans.minCoord = Vector3(center.x - radius, center.y - radius, center.z - radius);
+	ans.maxCoord = Vector3(center.x + radius, center.y + radius, center.z + radius);
+	return ans;
+}
+//·¨ÏßÌùÍ¼
 Color Sphere::GetTexture(Crash crash)
 {
 	auto normal = crash.normal;

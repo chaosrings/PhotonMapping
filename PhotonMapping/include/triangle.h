@@ -14,6 +14,7 @@ public:
 	Vector3 vertexNormals[3];
 	Triangle(Vector3 v0 = Vector3(), Vector3 v1 = Vector3(), Vector3 v2= Vector3()) :Primitive(),
 		vertex0(v0), vertex1(v1), vertex2(v2){}
-	AABB GetAABB();
-	Crash Collide(Ray ray);
+	AABB GetAABB() const;
+	Crash Collide(Ray ray) const;
+	Vector3 GetBarycentre() const { return barycentre; }
 };

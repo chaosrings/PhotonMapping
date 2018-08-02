@@ -3,6 +3,7 @@
 #include"vector3.h"
 #include "bmp.h"
 #include "ray.h"
+#include "aabb.h"
 #include <memory>
 class Material {
 public:
@@ -29,7 +30,6 @@ struct Crash
 	Crash(bool _crash = false, Vector3 _position = Vector3(), Vector3 _normal = Vector3(), double _dist = INF, bool _front = false) :
 		crashed(_crash), position(_position), normal(_normal), dist(_dist), front(_front) {
 	}
-
 };
 
 class Primitive
@@ -41,38 +41,13 @@ public:
 	virtual ~Primitive() {};
 	void SetMaterial(Material mat) { material = mat; }
 	Material& GetMaterial() { return material; }
-	virtual Crash Collide(Ray ray) = 0;  //子类必须实现Collide
-	virtual Color GetTexture(Crash)  {
-		return Color(1, 1, 1);
-	}
+	//必须实现光线碰撞检测
+	virtual Crash Collide(Ray ray) const = 0;  
+	//必须实现包围盒
+	virtual AABB  GetAABB() const = 0;        
+	//必须实现重心获取
+	virtual Vector3 GetBarycentre() const  = 0; 
+	virtual Color GetTexture(Crash) const {return Color(1, 1, 1);}
 };
 
 
-class Plane :public Primitive
-{
-private:
-	Vector3 normal;
-	Vector3 center;
-	Vector3 textureOrigin;
-	double length;
-	double width;
-	
-	Vector3 u;   //纹理width
-	Vector3 v;  //纹理length
-
-public:
-	Plane(Vector3 _normal = Vector3(0, 0, 1), Vector3 _center = Vector3(0, 0, -2), double _hW = 100.f, double _hL = 100.f
-	) :Primitive(), normal(_normal.GetUnitVector()), center(_center), width(_hW), length(_hL) {}
-
-	void SetLength(double hl) {length = hl;}
-	void SetWidth(double hw) { width = hw; }
-	void SetCenter(Vector3 _center) { center = _center; }
-	void SetNormal(Vector3 _normal) { normal = _normal; }
-	Vector3 GetCenter() const { return center; }
-	Vector3 GetNormal() const { return normal; }
-	double GetLength() const { return length; }
-	double GetWidth()const { return width; }
-	void UpdateTextureOrigin();
-	Crash Collide(Ray ray);
-	Color GetTexture(Crash);
-};

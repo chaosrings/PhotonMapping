@@ -1,7 +1,4 @@
 #include "Parser.h"
-
-
-
 regex Parser::fileRegex=regex(".+\\.\\w+");   //¾²Ì¬³ÉÔ±³õÊ¼»¯
 /*  .Æ¥Åä×Ö·û£¬\\.Æ¥Åä. \\wÆ¥Åä×ÖÄ¸Êı×ÖÏÂ»®Ïß*/
 
@@ -188,15 +185,10 @@ shared_ptr<Primitive> Parser::primitive()
 {
 	if (currentToken.value == "Sphere")
 		return sphere();
-	else if (currentToken.value == "Plane")
-		return plane();
 	else if (currentToken.value == "Mesh")
-	{
-		//TODO;
-	}
+		return mesh();
 	return nullptr;
 }
-
 Material  Parser::material()
 {
 	Material ret;
@@ -251,26 +243,27 @@ shared_ptr<Sphere> Parser::sphere()
 	return ret;
 }
 
-
-shared_ptr<Plane> Parser::plane()
+shared_ptr<Polyhedron> Parser::mesh()
 {
-	shared_ptr<Plane> ret(new Plane());
-	Match("Plane");
-	Match("center");
+	Match("Mesh");
+	string filepath;
+	Match("obj");
 	Match("=");
-	ret->SetCenter(vec3());
-	Match("normal");
-	Match("=");
-	ret->SetNormal(vec3());
-	Match("Length");
-	Match("=");
-	ret->SetLength(stof(currentToken.value));
+	filepath = currentToken.value;
 	Move();
-	Match("Width");
+	Match("rotation");
 	Match("=");
-	ret->SetWidth(stof(currentToken.value));
+	Vector3 rotaion = vec3();
+
+	Match("offset");
+	Match("=");
+	Vector3 offset = vec3();
+
+	Match("scale");
+	Match("=");
+	double scale = stod(currentToken.value);
 	Move();
-	ret->SetMaterial(material());
-	ret->UpdateTextureOrigin();
-	return ret;
+	shared_ptr<Polyhedron> poly(new Polyhedron(filepath, rotaion, offset, scale));
+	poly->SetMaterial(material());
+	return poly;
 }

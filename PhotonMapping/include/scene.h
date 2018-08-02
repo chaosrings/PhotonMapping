@@ -16,7 +16,8 @@ using std::shared_ptr;
 class Scene
 {
 private:
-	vector<shared_ptr<Primitive> > objects;
+	KDTree kdtree;
+	vector<shared_ptr<Primitive>> objects;
 	vector<shared_ptr<Light>>  lights;
 	shared_ptr<Camera> camera;
 public:
@@ -31,6 +32,7 @@ public:
 	void SetCamera(shared_ptr<Camera> _camera) { camera = _camera; }
 	void AddObject(shared_ptr<Primitive> _obj) { objects.push_back(_obj); }
 	void AddLight(shared_ptr<Light> _light) { lights.push_back(_light); }
+	void BuildKDTree();
 	friend class PhotonTracer;
 	friend class RayTracer;
 };

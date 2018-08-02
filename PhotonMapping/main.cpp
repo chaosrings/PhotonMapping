@@ -1,11 +1,6 @@
 #pragma once
-
 #include "raytracer.h"
 #include "parser.h"
-
-
-
-
 #include <random>
 #include <iostream>
 #include <time.h>
@@ -36,15 +31,7 @@ void RunRayTracer()
 		testTriangle->vertexNormals[0]= testTriangle->vertexNormals[1]= testTriangle->vertexNormals[2]=Vector3(0, 0, 1);
 		mainScene->AddObject(testTriangle);
 	}
-	{
-		shared_ptr<Polyhedron> tp(new Polyhedron("Objects\\dragon.obj",Vector3(0,7,-0.5),3.0));
-		tp->GetMaterial().refr =0.9;
-		tp->GetMaterial().refl =0;
-		tp->GetMaterial().diff = 0.1;
-		tp->GetMaterial().color = Color(1, 1, 1);
-		//tp->GetMaterial().color = Color(1,0.8431,0.1);
-		mainScene->AddObject(tp);
-	}
+	
 	RayTracer* raytracer = new RayTracer();
 	raytracer->Run(mainScene.get());
 	delete raytracer;
@@ -52,7 +39,6 @@ void RunRayTracer()
 
 int main()
 {
-
 	RunRayTracer();
 	system("pause");
 	return 0;

@@ -104,9 +104,6 @@
     <ClCompile Include="include\aabb.h">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Accelerations\aabb.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Primitive\triangle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -116,10 +113,13 @@
     <ClCompile Include="Objects\objReader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Accelerations\KDTree.cpp">
+    <ClCompile Include="Primitive\polyhedron.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Primitive\polyhedron.cpp">
+    <ClCompile Include="Accelerators\aabb.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerators\KDTree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

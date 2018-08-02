@@ -49,23 +49,23 @@ Vector3 operator - (const Vector3& A) {
 	return Vector3(-A.x, -A.y, -A.z);
 }
 
-double Vector3::Dot(const Vector3& term) {
+double Vector3::Dot(const Vector3& term) const {
 	return x * term.x + y * term.y + z * term.z;
 }
 
-inline double Vector3::Module2() {
+inline double Vector3::Module2() const {
 	return x * x + y * y + z * z;
 }
 
-inline double Vector3::Module(){
+inline double Vector3::Module() const{
 	return sqrt(x * x + y * y + z * z);
 }
 
-double Vector3::Distance2(Vector3& term){
+double Vector3::Distance2(Vector3& term) const{
 	return (term - *this).Module2();
 }
 
-double Vector3::Distance(Vector3& term) {
+double Vector3::Distance(Vector3& term) const {
 	return (term - *this).Module();
 }
 
@@ -80,8 +80,12 @@ double& Vector3::GetCoord(int axis){
 	if (axis == 1) return y;
 	return z;
 }
-
-inline Vector3 Vector3::GetUnitVector() {
+double Vector3::GetCoord(int axis) const{
+	if (axis == 0) return x;
+	if (axis == 1) return y;
+	return z;
+}
+inline Vector3 Vector3::GetUnitVector() const {
 	return *this / Module();
 }
 
@@ -94,29 +98,29 @@ void Vector3::AssRandomVector() {
 	*this = GetUnitVector();
 }
 
-Vector3 Vector3::GetAnVerticalVector() {
+Vector3 Vector3::GetAnVerticalVector() const {
 	Vector3 ret = *this * Vector3(0, 0, 1);
 	if (ret.IsZeroVector()) ret = Vector3(1, 0, 0);
 	else ret = ret.GetUnitVector();
 	return ret;
 }
 
-bool Vector3::IsZeroVector() {
+bool Vector3::IsZeroVector() const {
 	return fabs(x) < EPS && fabs(y) < EPS && fabs(z) < EPS;
 }
 
-Vector3 Vector3::Reflect(Vector3 N) {
+Vector3 Vector3::Reflect(Vector3 N) const {
 	return *this - N * (2 * Dot(N));
 }
 
-Vector3 Vector3::Refract(Vector3 N, double n) {
+Vector3 Vector3::Refract(Vector3 N, double n) const {
 	Vector3 V = GetUnitVector();
 	double cosI = -N.Dot(V), cosT2 = 1 - (n * n) * (1 - cosI * cosI);
 	if (cosT2 > EPS) return V * n + N * (n * cosI - sqrt(cosT2));
 	return V.Reflect(N);
 }
 
-Vector3 Vector3::Diffuse(Vector3 N) {
+Vector3 Vector3::Diffuse(Vector3 N)  const{
 	double theta = RandomRealZeroOne() *2*PI;
 	double random2 = RandomRealZeroOne();
 	Vector3 z = N.GetUnitVector();

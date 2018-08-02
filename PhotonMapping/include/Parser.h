@@ -40,9 +40,8 @@ public:
 	shared_ptr<Camera> camera(); //camera->....
 	shared_ptr<Light> light();   //light->AreaLight|PointLight
 	shared_ptr<AreaLight> arealgiht();  //arealight->"AreaLight" "dx" "=" vec3 "dy" "=" vec3 "color" "=" vec3
-	shared_ptr<Primitive> primitive();  //primitive->sphere|plane|mesh
+	shared_ptr<Primitive> primitive();  //primitive->sphere|mesh
 	shared_ptr<Sphere>   sphere();
 	Material             material();
-	shared_ptr<Plane>    plane();
-	void mesh();//TODO
+	shared_ptr<Polyhedron> mesh();//TODO
 };

@@ -31,7 +31,6 @@ Triangle inline SimpleObjReader::ReadOneTriangle(const vector<string>& curElemen
 	int normalIndex[3] = { -1,-1,-1 };
 	for (int i = 1; i <= 3; ++i)
 	{
-
 		vector<string> vertexElements;
 		// 以'/'分离为 顶点/纹理/法线 坐标
 		if(curElements[i].find("//")==string::npos)
@@ -59,8 +58,9 @@ Triangle inline SimpleObjReader::ReadOneTriangle(const vector<string>& curElemen
 		ans.normal = Vector3(0, 0, 1);
 	else
 		ans.normal = ans.normal.GetUnitVector();
+	//将三角形三个顶点的法向量赋予正确的值
 	for (int i = 0; i < 3; ++i)
-		ans.vertexNormals[i]=(normalIndex[i]!=-1)?  normals[normalIndex[i + 1]]:ans.normal;
+		ans.vertexNormals[i]=(normalIndex[i]!=-1)?  normals[normalIndex[i]]:ans.normal;
 	ans.barycentre = (ans.vertex0 + ans.vertex1 + ans.vertex2) / 3;
 	return ans;
 }

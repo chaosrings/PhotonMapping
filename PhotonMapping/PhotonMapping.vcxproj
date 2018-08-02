@@ -38,7 +38,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -163,8 +163,8 @@
     <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Accelerations\aabb.cpp" />
-    <ClCompile Include="Accelerations\KDTree.cpp" />
+    <ClCompile Include="Accelerators\aabb.cpp" />
+    <ClCompile Include="Accelerators\KDTree.cpp" />
     <ClCompile Include="include\aabb.h" />
     <ClCompile Include="include\objReader.h" />
     <ClCompile Include="Material\bmp.cpp" />

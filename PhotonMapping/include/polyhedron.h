@@ -9,17 +9,10 @@ private:
 	//Matrix worldMat
 	vector<Triangle> triangles;
 	KDTree kdtree;
+	Vector3 barycentre;
 public:
-	Polyhedron(std::string filename,Vector3 offset,double scale)
-	{
-		triangles = std::move(SimpleObjReader::ReadObjFile(filename,offset,scale));
-		vector<Triangle*> p_triangles(triangles.size(), nullptr);
-		for (unsigned int i = 0; i < triangles.size(); ++i)
-		{
-			p_triangles[i] = &triangles[i];
-		}
-		kdtree.Build(&p_triangles);
-		std::cout << kdtree.GetHeight() <<std::endl;
-	}
-	Crash Collide(Ray ray);
+	Polyhedron(std::string filename, Vector3 rotation,Vector3 offset, double scale);
+	AABB GetAABB() const;
+	Vector3 GetBarycentre() const { return barycentre; }
+	Crash Collide(Ray ray) const;
 };
