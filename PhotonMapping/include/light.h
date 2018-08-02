@@ -3,6 +3,7 @@
 #include"color.h"
 #include"primitive.h"
 #include "common.h"
+#include "KDTree.h"
 #include <vector>
 #include <memory>
 #include<sstream>
@@ -10,6 +11,7 @@
 #include<cmath>
 using std::vector;
 using std::shared_ptr;
+
 class Light {
 protected:
 	Color color;
@@ -18,13 +20,11 @@ public:
 	double crashDist;
 	Light(Color _color = Color(25.f,25.f, 25.f)) :color(_color){};
 	~Light() {}
-	
-
-	Color GetColor() { return color; }
-	Color DirectIllumination(Crash crash,const shared_ptr<Primitive> object, Vector3 toLight);
-	virtual Color GetIrradiance(Crash crash,const shared_ptr<Primitive> object,const std::vector<shared_ptr<Primitive>>& primitives)=0;
+	Color GetColor() { return color/std::max(color.r,std::max(color.g,color.b)); }
+	Color DirectIllumination(Collide collide,Vector3 toLight);
+	virtual Color GetIrradiance(Collide collide, const shared_ptr<KDTree> scenekdtree)=0;
 	virtual Vector3 GetCenter() = 0;
-	virtual bool Collide(Vector3 origin, Vector3 direction) = 0;
+	virtual bool Intersect(Vector3 origin, Vector3 direction) = 0;
 	//virtual Photon EmitPhoton() = 0;
 };
 
@@ -42,7 +42,7 @@ public:
 	void SetColor(Color _color) { color = _color; }
 	void SetColor(Vector3 _colorVec) { color = Color(_colorVec.x, _colorVec.y, _colorVec.z); }
 	Vector3 GetCenter() { return center; }
-	bool Collide(Vector3 origin, Vector3 direction);
-	Color GetIrradiance(Crash crash, const shared_ptr<Primitive> object, const std::vector<shared_ptr<Primitive>>& primitives);
+	bool Intersect(Vector3 origin, Vector3 direction);
+	Color GetIrradiance(Collide collide, const shared_ptr<KDTree> scenekdtree);
 	//Photon EmitPhoton();
 };

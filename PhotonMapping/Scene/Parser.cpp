@@ -1,4 +1,4 @@
-#include "Parser.h"
+#include "parser.h"
 regex Parser::fileRegex=regex(".+\\.\\w+");   //静态成员初始化
 /*  .匹配字符，\\.匹配. \\w匹配字母数字下划线*/
 

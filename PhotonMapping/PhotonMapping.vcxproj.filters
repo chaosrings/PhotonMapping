@@ -60,7 +60,7 @@
     <ClInclude Include="include\polyhedron.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\KDTree.h">
+    <ClInclude Include="include\kdtree.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,16 +110,16 @@
     <ClCompile Include="include\objReader.h">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\objReader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Primitive\polyhedron.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Accelerators\aabb.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Accelerators\KDTree.cpp">
+    <ClCompile Include="objReader\objReader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Accelerators\kdtree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

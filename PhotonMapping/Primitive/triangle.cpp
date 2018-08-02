@@ -9,10 +9,10 @@ AABB Triangle::GetAABB() const
 	}
 	return aabb;
 }
-Crash Triangle::Collide(Ray ray) const
+Collide Triangle::Intersect(Ray ray) const
 {
 
-	Crash ans;
+	Collide ans;
 	Vector3 origin = ray.origin;
 	Vector3 dir = ray.direction.GetUnitVector();
 

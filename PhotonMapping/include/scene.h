@@ -16,7 +16,7 @@ using std::shared_ptr;
 class Scene
 {
 private:
-	KDTree kdtree;
+	shared_ptr<KDTree> kdtree;
 	vector<shared_ptr<Primitive>> objects;
 	vector<shared_ptr<Light>>  lights;
 	shared_ptr<Camera> camera;
@@ -25,10 +25,10 @@ public:
 	~Scene();
 	int GetImageH() { return camera->GetH(); }
 	int GetImageW() { return camera->GetW(); }
-	const vector<shared_ptr<Light>> GetLights() { return lights; }
-	const vector<shared_ptr<Primitive>>  GetObjects() { return objects; }
-	shared_ptr<Primitive> FindNearestObject(Vector3 origin, Vector3 direction);
-	shared_ptr<Light>     FindNearestLight(Vector3 origin, Vector3 direction);
+	vector<shared_ptr<Light>> GetLights() { return lights; }
+	vector<shared_ptr<Primitive>>  GetObjects() { return objects; }
+	void FindNearestPrimitive(Ray ray,Collide &result);
+	shared_ptr<Light>  FindNearestLight(Vector3 origin, Vector3 direction);
 	void SetCamera(shared_ptr<Camera> _camera) { camera = _camera; }
 	void AddObject(shared_ptr<Primitive> _obj) { objects.push_back(_obj); }
 	void AddLight(shared_ptr<Light> _light) { lights.push_back(_light); }

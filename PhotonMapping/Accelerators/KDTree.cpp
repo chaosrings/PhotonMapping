@@ -1,4 +1,4 @@
-#include "KDTree.h"
+#include "kdtree.h"
 #include <algorithm>
 //包围盒
 AABB KDTree::GetBoundingBox(const vector<Primitive*>& prims) const
@@ -55,7 +55,7 @@ void KDTree::BuildTree(vector<Primitive*>* prims)
 	makeEmpty(root);
 	root = BuildTree(prims, 0);
 }
-void KDTree::Collide(KDNode* node,Ray& ray, Crash& crashResult) const
+void KDTree::Intersect(KDNode* node,Ray& ray, Collide& crashResult) const
 {
 	if (node->aabb.Hit(ray))
 	{
@@ -65,24 +65,32 @@ void KDTree::Collide(KDNode* node,Ray& ray, Crash& crashResult) const
 			//对叶节点的物体遍历求交
 			for (auto prim : node->primitives)
 			{
-				Crash curCrash = prim->Collide(ray);
-				//光线可能与多个三角片相交，只取距离最短的
-				if (curCrash.crashed&&curCrash.dist < crashResult.dist)
-					crashResult = curCrash;
+				Collide curCollide = prim->Intersect(ray);
+				//光线可能与多个物体，只取距离最短的
+				if (curCollide.crashed&&curCollide.dist < crashResult.dist)
+				{
+					crashResult = curCollide;
+					Triangle* triangle_prob = dynamic_cast<Triangle*>(prim);
+					//如果碰撞的物体是三角形并且属于一个多面体，那么材质为polyhedron的材质
+					if (triangle_prob != nullptr&&triangle_prob->GetParent()!=nullptr)
+						crashResult.SetCollidePrimitive(triangle_prob->GetParent());
+					else
+						crashResult.SetCollidePrimitive(prim);
+				}
 			}
 		}
 		else
 		{
 			if (node->left != nullptr)
-				Collide(node->left, ray, crashResult);
+				Intersect(node->left, ray, crashResult);
 			if (node->right != nullptr)
-				Collide(node->right, ray, crashResult);
+				Intersect(node->right, ray, crashResult);
 		}
 	}
 }
-void KDTree::Collide(Ray& ray, Crash& crashResult) const
+void KDTree::Intersect(Ray& ray, Collide& crashResult) const
 {
-	Collide(root, ray, crashResult);
+	Intersect(root, ray, crashResult);
 }
 void KDTree::makeEmpty(KDNode* &t)
 {

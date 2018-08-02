@@ -10,7 +10,7 @@ public:
 	Sphere(Vector3 _center = Vector3(), double _radius = 0.f) :Primitive(), center(_center), radius(_radius) {};
 	~Sphere() {}
 
-	Crash Collide(Ray ray) const;
+	Collide Intersect(Ray ray) const;
 	AABB  GetAABB() const;
 
 	void SetCenter(Vector3 _center) { center = _center; }
@@ -19,6 +19,6 @@ public:
 	Vector3 GetCenter() const { return center; }
 	Vector3 GetRadius() const { return radius; }
 	Vector3 GetBarycentre() const { return center; }
-	Color GetTexture(Crash);
+	Color GetTexture(Collide) const;
 	
 };

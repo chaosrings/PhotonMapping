@@ -20,7 +20,7 @@ void RunRayTracer()
 	}
 	Parser parser(move(toParser));
 	shared_ptr<Scene> mainScene = parser.scene();
-	//加一个测试三角形
+	//地面
 	{
 		shared_ptr<Triangle> testTriangle(new Triangle(Vector3(-10.f, -10.f, -2.f), Vector3(10.f, 10.f, -2.f), Vector3(-10.f, 10.f, -2.f)));
 		testTriangle->normal = Vector3(0, 0, 1);
@@ -31,7 +31,7 @@ void RunRayTracer()
 		testTriangle->vertexNormals[0]= testTriangle->vertexNormals[1]= testTriangle->vertexNormals[2]=Vector3(0, 0, 1);
 		mainScene->AddObject(testTriangle);
 	}
-	
+	mainScene->BuildKDTree();
 	RayTracer* raytracer = new RayTracer();
 	raytracer->Run(mainScene.get());
 	delete raytracer;

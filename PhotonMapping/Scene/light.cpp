@@ -1,10 +1,10 @@
 #include "light.h"
-Color Light::DirectIllumination(Crash crash,const shared_ptr<Primitive>object, Vector3 toLight) //计算直接光照
+Color Light::DirectIllumination(Collide collide,Vector3 toLight) //计算直接光照
 {
 	Color ret;
 	double dist2 = toLight.Module2();
 	toLight = toLight.GetUnitVector();
-	double dot = toLight.Dot(crash.normal);
+	double dot = toLight.Dot(collide.normal);
 	if (dot > EPS)
 	{
 		double factor = dot/dist2;
@@ -12,9 +12,7 @@ Color Light::DirectIllumination(Crash crash,const shared_ptr<Primitive>object, V
 	}
 	return ret;
 }
-
-
-bool AreaLight::Collide(Vector3 origin, Vector3 direction) {
+bool AreaLight::Intersect(Vector3 origin, Vector3 direction) {
 	direction = direction.GetUnitVector();
 	Vector3 N = (dx * dy).GetUnitVector();
 	double d = N.Dot(direction);
@@ -38,27 +36,21 @@ Photon AreaLight::EmitPhoton() {
 	ret.dir.AssRandomVector();
 	return ret;
 }*/
-Color AreaLight::GetIrradiance(Crash crash, const shared_ptr<Primitive> object, const std::vector<shared_ptr<Primitive>>& primitives)
+Color AreaLight::GetIrradiance(Collide collide,const shared_ptr<KDTree> scenekdtree)
 {
 	Color ret;
 	for (int i = -2; i < 2; i++)
 	{
 		for (int j = -2; j < 2; j++)
 		{
-			Vector3 toLight = center - crash.position + dx * ((RandomRealZeroOne() + i) / 2) + dy * ((RandomRealZeroOne() + j) / 2);
+			//面积光源，随机测试16组阴影光线
+			Vector3 toLight = center - collide.position + dx * ((RandomRealZeroOne() + i) / 2) + dy * ((RandomRealZeroOne() + j) / 2);
 			double dist = toLight.Module();
-			bool obscured = false;
-			for (auto pri : primitives)
-			{
-				Crash curCrash = pri->Collide(Ray(crash.position, toLight));
-				if (curCrash.crashed && curCrash.dist < dist)
-				{
-					obscured = true;
-					break;
-				}
-			}
-			if (obscured == false)
-				ret += DirectIllumination(crash, object, toLight);
+			Collide obscureCollide;
+			scenekdtree->Intersect(Ray(collide.position, toLight.GetUnitVector()), obscureCollide);
+			//如果碰撞位置与光源间没有遮挡，计算直接光照
+			if (!obscureCollide.crashed||dist < obscureCollide.dist)
+				ret += DirectIllumination(collide,toLight);
 		}
 	}
 	ret = ret / 16;

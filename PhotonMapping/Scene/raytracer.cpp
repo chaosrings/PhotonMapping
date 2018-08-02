@@ -3,65 +3,61 @@
 //#define SHOWPROGRESS
 #ifdef SHOWPROGRESS
 #include <Windows.h>
-
 CRITICAL_SECTION cs;
 #endif // SHOWPROGRESS
-
-
 Color RayTracer::RayTracing(Ray ray, int depth)
 {
-	Crash objCrash;
+	Collide collideResult;
 	if (depth > maxRayTracingDepth)
 		return Color();
-	auto object = scene->FindNearestObject(ray.origin, ray.direction);
-	if (object != nullptr)
-		objCrash = object->Collide(ray);
+	scene->FindNearestPrimitive(ray, collideResult);
 	auto  light = scene->FindNearestLight(ray.origin, ray.direction);
-	if (light != nullptr&& (object==nullptr||light->crashDist<objCrash.dist))
+	//遇到光源并且没有遮挡,直接返回光源的颜色
+	if (light != nullptr && (!collideResult.crashed || light->crashDist < collideResult.dist))
 		return light->GetColor();
-	if (object != nullptr)
-		return Shade(object, objCrash, ray, depth);
+	//否者返回物体的颜色
+	if (collideResult.GetCollidePrimitive()!=nullptr)
+		return Shade(collideResult,ray, depth);
 	return Color();
 }
 
-Color RayTracer::Shade(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
+Color RayTracer::Shade(Collide collide, Ray ray, int depth)
 {
+	Primitive* collidePrim = collide.GetCollidePrimitive();
 	Color ret;
-	Color material = object->GetMaterial().color;
-	if (object->GetMaterial().texture.get()!=nullptr)
-		material =material*(object->GetTexture(crash));
-	double diff = object->GetMaterial().diff, refl = object->GetMaterial().refl, refr = object->GetMaterial().refr;
+	Color material = collidePrim->GetMaterial().color;
+	if (collidePrim->GetMaterial().texture.get()!=nullptr)
+		material =material*(collidePrim->GetTexture(collide));
+	double diff = collidePrim->GetMaterial().diff, refl = collidePrim->GetMaterial().refl, refr = collidePrim->GetMaterial().refr;
 	if (diff > EPS)
-		ret +=material*Diffusion(object, crash, ray, depth)*diff;
+		ret +=material*Diffusion(collide, ray, depth)*diff;
 	if (refl > EPS)
-		ret +=material*Reflection(object, crash, ray, depth)*refl;
+		ret +=material*Reflection(collide, ray, depth)*refl;
 	if (refr > EPS)
-		ret += material*Refraction(object, crash, ray, depth)*refr;
+		ret += material*Refraction(collide, ray, depth)*refr;
 	return ret;
 }
-
-
-Color RayTracer::Reflection(const shared_ptr<Primitive> object, Crash crash,Ray ray, int depth)
+Color RayTracer::Reflection(Collide collide,Ray ray, int depth)
 {
 	Color ret;
-	Ray reflRay = Ray(crash.position, ray.direction.Reflect(crash.normal));
+	Ray reflRay = Ray(collide.position, ray.direction.Reflect(collide.normal));
 	return  RayTracing(reflRay, depth + 1);
 }
-Color RayTracer::Refraction(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
+Color RayTracer::Refraction(Collide collide, Ray ray, int depth)
 {
 	Color ret;
-	double n = object->GetMaterial().rindex;
-	if (crash.front)
+	double n = collide.GetCollidePrimitive()->GetMaterial().rindex;
+	if (collide.front)
 		n = 1 / n;
-	Ray refrRay = Ray(crash.position, ray.direction.Refract(crash.normal, n));
+	Ray refrRay = Ray(collide.position, ray.direction.Refract(collide.normal, n));
 	return RayTracing(refrRay, depth + 1);
 }
 
-Color RayTracer::Diffusion(const shared_ptr<Primitive> object, Crash crash, Ray ray, int depth)
+Color RayTracer::Diffusion(Collide collide, Ray ray, int depth)
 {
 	Color ret;
 	for (auto light : scene->lights)
-		ret += light->GetIrradiance(crash, object, scene->objects);
+		ret += light->GetIrradiance(collide,scene->kdtree);
 	return ret;
 }
 
@@ -70,7 +66,6 @@ void RayTracer::Run(Scene* _scene)
 #ifdef SHOWPROGRESS
 	InitializeCriticalSection(&cs);
 #endif // SHOWPROGRESS
-
 	SetScene(_scene);
 	int H = scene->GetImageH();
 	int W = scene->GetImageW();
@@ -97,8 +92,6 @@ void RayTracer::Run(Scene* _scene)
 		LeaveCriticalSection(&cs);
 #endif // SHOWPROGRESS
 	}
-
-
 	);
 	scene->camera->Output(result);
 	result->Output("result.bmp");

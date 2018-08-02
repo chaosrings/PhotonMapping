@@ -1,7 +1,7 @@
 #include "sphere.h"
-Crash  Sphere::Collide(Ray ray) const
+Collide  Sphere::Intersect(Ray ray) const
 {
-	Crash crash;
+	Collide collide;
 	auto direction = ray.direction.GetUnitVector();
 	auto origin = ray.origin;
 	Vector3 P = origin - center;
@@ -12,28 +12,28 @@ Crash  Sphere::Collide(Ray ray) const
 		det = sqrt(det);
 		double x1 = b - det, x2 = b + det;
 
-		if (x2 < EPS) { crash.crashed = false; return crash; }
-		crash.crashed = true;
+		if (x2 < EPS) { collide.crashed = false; return collide; }
+		collide.crashed = true;
 		if (x1 > EPS) {
-			crash.dist = x1;
-			crash.front = true;
+			collide.dist = x1;
+			collide.front = true;
 		}
 		else {
-			crash.dist = x2;
-			crash.front = false;
+			collide.dist = x2;
+			collide.front = false;
 		}
 	}
 	else
 	{
-		crash.crashed = false;
-		return crash;
+		collide.crashed = false;
+		return collide;
 	}
 
-	crash.position = origin + direction * crash.dist;
-	crash.normal = (crash.position - center).GetUnitVector();
-	if (crash.front == false)
-		crash.normal = -crash.normal;
-	return crash;
+	collide.position = origin + direction * collide.dist;
+	collide.normal = (collide.position - center).GetUnitVector();
+	if (collide.front == false)
+		collide.normal = -collide.normal;
+	return collide;
 }
 
 AABB Sphere::GetAABB() const
@@ -44,9 +44,9 @@ AABB Sphere::GetAABB() const
 	return ans;
 }
 //·¨ÏßÌùÍ¼
-Color Sphere::GetTexture(Crash crash)
+Color Sphere::GetTexture(Collide collide) const
 {
-	auto normal = crash.normal;
+	auto normal = collide.normal;
 	normal = normal.GetUnitVector();
 	double u = asin(normal.x) / PI + 0.5f;
 	double v = asin(normal.y) / PI + 0.5f;

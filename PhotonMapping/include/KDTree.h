@@ -22,7 +22,7 @@ private:
 	int height;
 	KDNode* root;
 	KDNode* BuildTree(vector<Primitive*> * tris, int depth);
-	void Collide(KDNode* t,Ray& ray, Crash& crashResult) const;
+	void Intersect(KDNode* t,Ray& ray, Collide& crashResult) const;
 	void makeEmpty(KDNode*& t);
 public:
 	
@@ -34,5 +34,5 @@ public:
 	AABB GetBoundingBox(const vector<Primitive*>& tris) const;
 	int GetHeight() const { return height; } 
 	void BuildTree(vector<Primitive*>* triangles);
-	void Collide(Ray& ray,Crash& crashResult)const ;
+	void Intersect(Ray& ray,Collide& crashResult)const ;
 };

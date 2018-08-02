@@ -8,7 +8,7 @@ AreaLight
 center=3 5.6 3
 dx=3 0 0 
 dy=0 3 0
-color=15 15 15
+color=16 16 16
 
 
 Sphere
@@ -29,6 +29,16 @@ refl=1
 refr=0
 rindex=1.7
 
+Sphere
+center=1 4.5 -1.5
+R=0.5
+color=0.75 0.99 0.99
+diff=1
+refl=0
+refr=0
+rindex=1.7
+texture=Texture\picture.bmp
+
 Mesh
 obj=Objects\dragon.obj
 rotation=90 0 0
@@ -38,4 +48,13 @@ color=1 0.8431 0.1
 diff=1
 refl=0
 refr=0
-rindex=1.7
+
+Mesh
+obj=Objects\horse.obj
+rotation=90 0 0
+offset=2 6.5 -0.5
+scale=2.0
+color=1 1 0.5
+diff=0
+refl=0
+refr=1

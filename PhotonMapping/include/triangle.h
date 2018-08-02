@@ -12,9 +12,13 @@ public:
 	Vector3 normal;
 	Vector3 barycentre;
 	Vector3 vertexNormals[3];
+	Primitive* parent;  //父节点，通常为polyhedron
 	Triangle(Vector3 v0 = Vector3(), Vector3 v1 = Vector3(), Vector3 v2= Vector3()) :Primitive(),
-		vertex0(v0), vertex1(v1), vertex2(v2){}
+		vertex0(v0), vertex1(v1), vertex2(v2) {
+		parent = nullptr;
+	}
 	AABB GetAABB() const;
-	Crash Collide(Ray ray) const;
+	Collide Intersect(Ray ray) const;
 	Vector3 GetBarycentre() const { return barycentre; }
+	Primitive* GetParent() { return parent; }
 };

@@ -145,7 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\KDTree.h" />
+    <ClInclude Include="include\kdtree.h" />
     <ClInclude Include="include\bmp.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\color.h" />
@@ -164,11 +164,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\aabb.cpp" />
-    <ClCompile Include="Accelerators\KDTree.cpp" />
+    <ClCompile Include="Accelerators\kdtree.cpp" />
     <ClCompile Include="include\aabb.h" />
     <ClCompile Include="include\objReader.h" />
     <ClCompile Include="Material\bmp.cpp" />
-    <ClCompile Include="Objects\objReader.cpp" />
+    <ClCompile Include="objReader\objReader.cpp" />
     <ClCompile Include="Primitive\polyhedron.cpp" />
     <ClCompile Include="Primitive\sphere.cpp" />
     <ClCompile Include="Primitive\triangle.cpp" />
