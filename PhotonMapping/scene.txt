@@ -5,17 +5,17 @@ LensWidth=  1
 LensHeight= 0.6
 
 AreaLight
-center=3 3 3
-dx=1.5 0 0 
-dy=0 1.5 0
-color=30 30 30
+center=3 5.6 3
+dx=3 0 0 
+dy=0 3 0
+color=25 25 25
 
 
 
 Sphere
 center=0 4.2 -1.5
 R=0.5
-color=0.99 1 0.99
+color=1 1 1
 diff=0
 refl=1
 refr=0
@@ -24,7 +24,7 @@ rindex=1.7
 Sphere
 center=1 5.2 -1.5
 R=0.2
-color=0.99 0.99 0
+color=0.75 0.99 0
 diff=0
 refl=1
 refr=0

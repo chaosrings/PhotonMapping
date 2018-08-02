@@ -15,7 +15,6 @@ KDNode* KDTree::buildTree(vector<Triangle*>* tris, int depth)
 {	
 	if (depth > height)
 		height = depth;
-	
 	//拷贝赋值
 	KDNode* node = new KDNode(*tris);
 	//包围盒
@@ -59,11 +58,10 @@ void KDTree::Collide(KDNode* node,Ray& ray, Crash& crashResult)
 		//到达叶节点
 		if (node->left == nullptr&&node->right == nullptr)
 		{
-			double minDist = INF;
 			for (auto ptriangle : node->triangles)
 			{
 				Crash curCrash = ptriangle->Collide(ray);
-				if (curCrash.crashed&&curCrash.dist < minDist)
+				if (curCrash.crashed&&curCrash.dist < crashResult.dist)
 					crashResult = curCrash;
 			}
 		}

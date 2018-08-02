@@ -8,4 +8,4 @@ std::uniform_real_distribution<double> u(0, 1);
 
 const int maxEmitPhoton = 1000000;
 const int maxPhotonTracingDepth = 10;
-const int maxRayTracingDepth =20;
+const int maxRayTracingDepth =10;
