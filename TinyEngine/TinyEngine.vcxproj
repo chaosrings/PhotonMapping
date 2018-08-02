@@ -160,7 +160,6 @@
     <ClInclude Include="include\sphere.h" />
     <ClInclude Include="include\triangle.h" />
     <ClInclude Include="include\vector3.h" />
-    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Accelerators\aabb.cpp" />
