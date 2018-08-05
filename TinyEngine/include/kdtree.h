@@ -32,6 +32,7 @@ public:
 	KDTree& operator=(const KDTree& rhs) = delete;
 	void Clear() { makeEmpty(root); }
 	AABB GetBoundingBox(const vector<Primitive*>& tris) const;
+	AABB BoundingBox() const { return root->aabb; }
 	int GetHeight() const { return height; } 
 	void BuildTree(vector<Primitive*>* triangles);
 	void Intersect(Ray& ray,Collide& crashResult)const ;

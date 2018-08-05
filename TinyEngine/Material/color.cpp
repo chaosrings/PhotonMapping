@@ -42,7 +42,7 @@ Color& operator /= (Color& A, double k) {
 Color Color::Confine() {
 	if (r > 1.0 || g > 1.0 || b > 1.0)
 		return Color(1, 1, 1);
-	//return Color(std::min(r, 1.0), std::min(g, 1.0), std::min(b, 1.0));
+	return *this;
 }
 
 double Color::Power() {

@@ -21,9 +21,13 @@ vector<string> SimpleObjReader::SplitString(const string& target, char splitCh)
 }
 Vector3 inline SimpleObjReader::ReadOneVertex(const vector<string>& curElements)
 {
-	return Vector3(std::stod(curElements[1]), std::stod(curElements[2]), std::stod(curElements[3]));
+	if(curElements.size()==4)
+		return Vector3(std::stod(curElements[1]), std::stod(curElements[2]), std::stod(curElements[3]));
+	return Vector3(std::stod(curElements[1]), std::stod(curElements[2]),0);
 }
-Triangle inline SimpleObjReader::ReadOneTriangle(const vector<string>& curElements, const vector<Vector3>& vertices,const vector<Vector3>& normals ,Vector3 offset,double scale)
+Triangle inline SimpleObjReader::ReadOneTriangle(const vector<string>& curElements, 
+	const vector<Vector3>& vertices, const vector<Vector3>& textures, const vector<Vector3>& normals,
+	Vector3 rotation,Vector3 offset,double scale)
 {
 	Triangle ans;
 	int vertexIndex[3] = { -1,-1,-1};
@@ -53,30 +57,30 @@ Triangle inline SimpleObjReader::ReadOneTriangle(const vector<string>& curElemen
 		}
 	}
 	ans = Triangle(vertices[vertexIndex[0]] * scale + offset, vertices[vertexIndex[1]] * scale + offset, vertices[vertexIndex[2]] * scale + offset);
-	ans.normal = (ans.vertex1 - ans.vertex0)*(ans.vertex2 - ans.vertex0);
+	ans.normal = (ans.vertex[1] - ans.vertex[0])*(ans.vertex[2] - ans.vertex[0]);
 	if (ans.normal.IsZeroVector())
 		ans.normal = Vector3(0, 0, 1);
 	else
 		ans.normal = ans.normal.GetUnitVector();
-	//将三角形三个顶点的法向量赋予正确的值
+	//将三角形三个顶点的法向量,纹理坐标赋予正确的值
 	for (int i = 0; i < 3; ++i)
-		ans.vertexNormals[i]=(normalIndex[i]!=-1)?  normals[normalIndex[i]]:ans.normal;
-	ans.barycentre = (ans.vertex0 + ans.vertex1 + ans.vertex2) / 3;
+	{
+		ans.vertexNormals[i] = (normalIndex[i] != -1) ? normals[normalIndex[i]] : ans.normal;
+		ans.vertexTexutures[i] = (textureIndex[i] != -1) ? textures[textureIndex[i]] : Vector3(0,0,0);
+	}
+	ans.barycentre = (ans.vertex[0] + ans.vertex[1] + ans.vertex[2]) / 3;
 	return ans;
 }
-vector<Triangle> SimpleObjReader::ReadObjFile(string filepath,Vector3 offset,double scale)
+vector<Triangle> SimpleObjReader::ReadObjFile(string filepath, Vector3 rotation,Vector3 offset,double scale)
 {
 	vector<Triangle> tris;
-	vector<Vector3>  vertices;
-	vector<Vector3>  normals;
-	vertices.push_back(Vector3());
-	normals.push_back(Vector3());
+	vector<Vector3>  vertices(1,Vector3());
+	vector<Vector3>  textures(1, Vector3());
+	vector<Vector3>  normals(1, Vector3());
 	std::ifstream ifs;
 	ifs.open(filepath);
 	if (!ifs)
-	{
 		throw std::exception("file doesn't exist");
-	}
 	string curLine;
 	vector<string> curElements;
 	while (std::getline(ifs, curLine))
@@ -86,31 +90,13 @@ vector<Triangle> SimpleObjReader::ReadObjFile(string filepath,Vector3 offset,dou
 			continue;
 		if (curElements[0] == "v")
 			vertices.push_back(ReadOneVertex(curElements));
+		if (curElements[0] == "vt")
+			textures.push_back(ReadOneVertex(curElements));
 		if (curElements[0] == "vn")
 			normals.push_back(ReadOneVertex(curElements));
 		if (curElements[0] == "f")
-			tris.push_back(ReadOneTriangle(curElements, vertices,normals,offset,scale));
+			tris.push_back(ReadOneTriangle(curElements,vertices,textures,normals,rotation,offset,scale));
 	}
 	return tris;
 	
-}
-
-vector<Triangle>  SimpleObjReader::ReadObjEx(string filepath, Vector3 offset, double scale)
-{
-	vector<Triangle> tris;
-	vector<Vector3>  vertices;
-	vertices.push_back(Vector3());
-	std::ifstream ifs;
-	ifs.open(filepath);
-	assert(ifs);
-	string line;
-	while (std::getline(ifs, line))
-	{
-		std::stringstream ss(line);
-		std::string var;
-		if (!(ss >> var))
-			continue;
-
-	}
-	return tris;
 }

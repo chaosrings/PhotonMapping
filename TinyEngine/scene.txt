@@ -5,10 +5,10 @@ LensWidth=  1
 LensHeight= 0.6
 
 AreaLight
-center=3 5.6 3
+center=3 3 3.1
 dx=3 0 0 
 dy=0 3 0
-color=16 16 16
+color=25 25 25
 
 
 Sphere
@@ -39,6 +39,19 @@ refr=0
 rindex=1.7
 texture=Texture\picture.bmp
 
+
+Mesh
+obj=Objects\plane.obj
+rotation=90 0 0
+offset=0 0 -2
+scale=30
+color=1 1 1
+diff=1
+refl=0
+refr=0
+rindex=1.7
+texture=Texture\planetext.bmp
+
 Mesh
 obj=Objects\dragon.obj
 rotation=90 0 0
@@ -54,7 +67,8 @@ obj=Objects\horse.obj
 rotation=90 0 0
 offset=2 6.5 -0.5
 scale=2.0
-color=1 1 0.5
+color=1 1 1
 diff=0
 refl=0
 refr=1
+

@@ -23,6 +23,8 @@ struct Collide
 {
 	bool crashed;
 	Vector3 position;
+	float u;
+	float v;
 	Vector3 normal;
 	double dist;
 	bool front;
@@ -49,7 +51,7 @@ public:
 	virtual AABB  GetAABB() const = 0;        
 	//必须实现重心获取
 	virtual Vector3 GetBarycentre() const  = 0; 
-	virtual Color GetTexture(Collide) const {return Color(1, 1, 1);}
+	virtual Color GetTexture(double u, double v) const;
 };
 
 

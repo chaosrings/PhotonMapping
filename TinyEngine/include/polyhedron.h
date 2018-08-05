@@ -6,7 +6,6 @@
 class Polyhedron : public Primitive
 {
 private:
-	//Matrix worldMat
 	vector<Triangle> triangles;
 	KDTree kdtree;
 	Vector3 barycentre;
@@ -15,4 +14,5 @@ public:
 	AABB GetAABB() const;
 	Vector3 GetBarycentre() const { return barycentre; }
 	Collide Intersect(Ray ray) const;
+	int GetTriangleNum() { return triangles.size(); }
 };

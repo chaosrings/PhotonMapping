@@ -27,7 +27,7 @@ Color RayTracer::Shade(Collide collide, Ray ray, int depth)
 	Color ret;
 	Color material = collidePrim->GetMaterial().color;
 	if (collidePrim->GetMaterial().texture.get()!=nullptr)
-		material =material*(collidePrim->GetTexture(collide));
+		material =material*(collidePrim->GetTexture(collide.u,collide.v));
 	double diff = collidePrim->GetMaterial().diff, refl = collidePrim->GetMaterial().refl, refr = collidePrim->GetMaterial().refr;
 	if (diff > EPS)
 		ret +=material*Diffusion(collide, ray, depth)*diff;
@@ -78,10 +78,9 @@ void RayTracer::Run(Scene* _scene)
 		for (int j = 0; j < W; ++j)
 		{
 			Color color;
-			Vector3 emitDirection = scene->camera->Emit(i, j);
+			Vector3 emitDirection = scene->camera->Emit(i, j).GetUnitVector();
 			color += RayTracing(Ray(eyePosition, emitDirection), 0);
-			color.Confine();
-			scene->camera->SetColor(i, j, color);
+			scene->camera->SetColor(i, j, color.Confine());
 		}
 #ifdef SHOWPROGRESS
 		EnterCriticalSection(&cs);

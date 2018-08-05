@@ -22,7 +22,7 @@ KDNode* KDTree::BuildTree(vector<Primitive*>* prims, int depth)
 	if (prims->size() == 1)
 		return node;
 	Vector3 midPoint = Vector3(0, 0, 0);
-	//以三角形重心为划分标准,小于在左，大于在右
+	//以重心为划分标准,小于在左，大于在右
 	for (auto prim : *prims)
 		midPoint += (prim->GetBarycentre()/ double(prims->size()));
 	auto left_prims=new vector<Primitive*>();
@@ -35,11 +35,9 @@ KDNode* KDTree::BuildTree(vector<Primitive*>* prims, int depth)
 		else
 			right_prims->push_back(prim);
 	}
-	//若平均重心无法分离，子节点直接构造
-	if (left_prims->size() == 0)
-		node->right = new KDNode(*right_prims,GetBoundingBox(*right_prims));
-	else if (right_prims->size() == 0)
-		node->left = new KDNode(*left_prims, GetBoundingBox(*left_prims));
+	//若平均重心无法分离，直接返回节点
+	if (left_prims->size() == 0 || right_prims->size() == 0)
+		return node;
 	else
 	{
 		//否则继续划分

@@ -9,7 +9,7 @@ Collide Polyhedron::Intersect(Ray ray) const
 }
 Polyhedron::Polyhedron(std::string filename, Vector3 rotation,Vector3 offset, double scale)
 {
-	triangles = std::move(SimpleObjReader::ReadObjFile(filename, offset, scale));
+	triangles = std::move(SimpleObjReader::ReadObjFile(filename, rotation,offset, scale));
 	vector<Primitive*> p_triangles(triangles.size(), nullptr);
 	barycentre = Vector3();
 	//设置父节点，获取三角形的指针，预计算重心
@@ -23,8 +23,5 @@ Polyhedron::Polyhedron(std::string filename, Vector3 rotation,Vector3 offset, do
 }
 AABB Polyhedron::GetAABB() const
 {
-	AABB ans = triangles[0].GetAABB();
-	for (unsigned int i = 1; i < triangles.size(); ++i)
-		ans.Extend(triangles[i].GetAABB());
-	return ans;
+	return kdtree.BoundingBox();
 }
