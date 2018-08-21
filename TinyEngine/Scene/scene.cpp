@@ -15,13 +15,13 @@ void Scene::FindNearestPrimitive(Ray ray,Collide& result)
 	kdtree->Intersect(ray, result);
 }
 
-shared_ptr<Light> Scene::FindNearestLight(Vector3 origin, Vector3 direction)
+shared_ptr<Light> Scene::FindNearestLight(Ray shadowRay)
 {
 	shared_ptr<Light> nearestLight = nullptr;
 	double minDist =double(INT_MAX);
 	for (auto light : lights)
 	{
-		if (light->Intersect(origin, direction)&&light->crashDist<minDist)
+		if (light->Intersect(shadowRay)&&light->crashDist<minDist)
 			nearestLight = light;
 	}
 	return nearestLight;

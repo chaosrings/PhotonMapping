@@ -28,7 +28,7 @@ public:
 	vector<shared_ptr<Light>> GetLights() { return lights; }
 	vector<shared_ptr<Primitive>>  GetObjects() { return objects; }
 	void FindNearestPrimitive(Ray ray,Collide &result);
-	shared_ptr<Light>  FindNearestLight(Vector3 origin, Vector3 direction);
+	shared_ptr<Light>  FindNearestLight(Ray shadowRay);
 	void SetCamera(shared_ptr<Camera> _camera) { camera = _camera; }
 	void AddObject(shared_ptr<Primitive> _obj) { objects.push_back(_obj); }
 	void AddLight(shared_ptr<Light> _light) { lights.push_back(_light); }

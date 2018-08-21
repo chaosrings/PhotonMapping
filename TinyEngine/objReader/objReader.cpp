@@ -56,7 +56,18 @@ Triangle inline SimpleObjReader::ReadOneTriangle(const vector<string>& curElemen
 			normalIndex[i-1] = std::stoi(vertexElements[2]);
 		}
 	}
-	ans = Triangle(vertices[vertexIndex[0]] * scale + offset, vertices[vertexIndex[1]] * scale + offset, vertices[vertexIndex[2]] * scale + offset);
+	auto v1 = vertices[vertexIndex[0]];
+	auto v2 = vertices[vertexIndex[1]];
+	auto v3 = vertices[vertexIndex[2]];
+	//顶点坐标先旋转
+	for (int i = 0; i < 3; ++i)
+	{
+		v1 = v1.RotateWithAxis(i, rotation.GetCoord(i)*PI / 180);
+		v2 = v2.RotateWithAxis(i, rotation.GetCoord(i)*PI / 180);
+		v3 = v3.RotateWithAxis(i, rotation.GetCoord(i)*PI / 180);
+	}
+	//再放缩，偏移
+	ans = Triangle(v1* scale + offset, v2 * scale + offset, v3 * scale + offset);
 	ans.normal = (ans.vertex[1] - ans.vertex[0])*(ans.vertex[2] - ans.vertex[0]);
 	if (ans.normal.IsZeroVector())
 		ans.normal = Vector3(0, 0, 1);
@@ -66,8 +77,19 @@ Triangle inline SimpleObjReader::ReadOneTriangle(const vector<string>& curElemen
 	for (int i = 0; i < 3; ++i)
 	{
 		ans.vertexNormals[i] = (normalIndex[i] != -1) ? normals[normalIndex[i]] : ans.normal;
+		//法向量旋转
+		if (normalIndex[i] != -1)
+		{
+			for(int j=0;j<3;++j)
+			{
+				ans.vertexNormals[i] = ans.vertexNormals[i].RotateWithAxis(j, rotation.GetCoord(j)*PI / 180);
+			}
+			
+		}
+		//纹理坐标
 		ans.vertexTexutures[i] = (textureIndex[i] != -1) ? textures[textureIndex[i]] : Vector3(0,0,0);
 	}
+	//重心
 	ans.barycentre = (ans.vertex[0] + ans.vertex[1] + ans.vertex[2]) / 3;
 	return ans;
 }

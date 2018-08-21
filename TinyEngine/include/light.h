@@ -24,7 +24,7 @@ public:
 	Color DirectIllumination(Collide collide,Vector3 toLight);
 	virtual Color GetIrradiance(Collide collide, const shared_ptr<KDTree> scenekdtree)=0;
 	virtual Vector3 GetCenter() = 0;
-	virtual bool Intersect(Vector3 origin, Vector3 direction) = 0;
+	virtual bool Intersect(Ray shadowRay) = 0;
 	//virtual Photon EmitPhoton() = 0;
 };
 
@@ -42,7 +42,7 @@ public:
 	void SetColor(Color _color) { color = _color; }
 	void SetColor(Vector3 _colorVec) { color = Color(_colorVec.x, _colorVec.y, _colorVec.z); }
 	Vector3 GetCenter() { return center; }
-	bool Intersect(Vector3 origin, Vector3 direction);
+	bool Intersect(Ray shadowRay);
 	Color GetIrradiance(Collide collide, const shared_ptr<KDTree> scenekdtree);
 	//Photon EmitPhoton();
 };

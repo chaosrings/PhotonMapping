@@ -12,8 +12,9 @@ Color Light::DirectIllumination(Collide collide,Vector3 toLight) //计算直接光照
 	}
 	return ret;
 }
-bool AreaLight::Intersect(Vector3 origin, Vector3 direction) {
-	direction = direction.GetUnitVector();
+bool AreaLight::Intersect(Ray shadowRay) {
+	auto origin = shadowRay.origin;
+	auto direction =shadowRay.direction.GetUnitVector();
 	Vector3 N = (dx * dy).GetUnitVector();
 	double d = N.Dot(direction);
 	if (fabs(d) < EPS) return false;
@@ -45,11 +46,11 @@ Color AreaLight::GetIrradiance(Collide collide,const shared_ptr<KDTree> scenekdt
 		{
 			//面积光源，随机测试16组阴影光线
 			Vector3 toLight = center - collide.position + dx * ((RandomRealZeroOne() + i) / 2) + dy * ((RandomRealZeroOne() + j) / 2);
-			double dist = toLight.Module();
+			double d = toLight.Module();
 			Collide obscureCollide;
 			scenekdtree->Intersect(Ray(collide.position, toLight.GetUnitVector()), obscureCollide);
 			//如果碰撞位置与光源间没有遮挡，计算直接光照
-			if (!obscureCollide.crashed||dist < obscureCollide.dist)
+			if (!obscureCollide.crashed||d < obscureCollide.dist)
 				ret += DirectIllumination(collide,toLight);
 		}
 	}

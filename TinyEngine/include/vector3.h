@@ -38,6 +38,8 @@ public:
 	Vector3 Reflect(Vector3 N) const;
 	Vector3 Refract(Vector3 N, double n) const;
 	Vector3 Diffuse(Vector3 normal) const;
+
+	Vector3 RotateWithAxis(int axis, double angle) const;
 };
 
 

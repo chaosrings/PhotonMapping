@@ -137,3 +137,25 @@ Vector3 Vector3::Diffuse(Vector3 N)  const{
 }
 
 
+Vector3 Vector3::RotateWithAxis(int axis, double angle) const
+{
+	Vector3 ans = *this;
+	//xÖáÐý×ª
+	if (axis == 0)
+	{
+		ans.y = y*cos(angle) + z*sin(angle);
+		ans.z = y*(-sin(angle)) + z*cos(angle);
+	}
+	else if (axis == 1)
+	{
+		ans.x = x*cos(angle) + z*(-sin(angle));
+		ans.z = x*sin(angle) + z*(cos(angle));
+	}
+	else
+	{
+		ans.x = x*cos(angle) + y*sin(angle);
+		ans.y = x*(-sin(angle)) + y*cos(angle);
+	}
+	return ans;
+}
+

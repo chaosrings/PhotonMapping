@@ -11,7 +11,7 @@ Color RayTracer::RayTracing(Ray ray, int depth)
 	if (depth > maxRayTracingDepth)
 		return Color();
 	scene->FindNearestPrimitive(ray, collideResult);
-	auto  light = scene->FindNearestLight(ray.origin, ray.direction);
+	auto  light = scene->FindNearestLight(ray);
 	//遇到光源并且没有遮挡,直接返回光源的颜色
 	if (light != nullptr && (!collideResult.crashed || light->crashDist < collideResult.dist))
 		return light->GetColor();

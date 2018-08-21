@@ -61,18 +61,18 @@ Collide Triangle::Intersect(Ray ray) const
 	v *= fInvDet;
 
 	Vector3 texutureCoord = vertexTexutures[0] * (1 - u - v) + vertexTexutures[1] * u + vertexTexutures[2] * v;
-	Vector3 normal = vertexNormals[0] * (1 - u - v) + vertexNormals[1] * u + vertexNormals[2] * v;
-	normal = normal.GetUnitVector();
+	Vector3 n = vertexNormals[0] * (1 - u - v) + vertexNormals[1] * u + vertexNormals[2] * v;
+	n = n.GetUnitVector();
 	
 	ans.crashed = true;
 	//正面碰撞
-	ans.front = dir.Dot(this->normal) < 0;
+	ans.front = dir.Dot(n) < 0;
 	ans.position = vertex[0]*(1 - u - v) + vertex[1]*u + vertex[2]*v;
 	//纹理坐标
 	ans.u = texutureCoord.x;
 	ans.v = texutureCoord.y;
 	//碰撞点的法向量
-	ans.normal = ans.front ? normal : -normal;
+	ans.normal = ans.front ? n : -n;
 	//光线到碰撞点的距离
 	ans.dist = t;
 	return ans;

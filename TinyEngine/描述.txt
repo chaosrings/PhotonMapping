@@ -1,0 +1,49 @@
+1.描述
+一个基于计算机图形学离线渲染技术的光线追踪引擎
+从scene.txt中读入场景数据，渲染结果到result.bmp
+2.接口
+2.1 Math  数学库
+	Vector3  三维向量类,xyz三个分量,有加减,点积，叉积，模长，距离等方法
+
+2.2 Material   材质库
+	Color    颜色r,g,b类
+
+	Bmp      bmp图片库，用于保存纹理贴图和输出图片
+
+2.2 Accelerators   加速算法
+
+	AABB     轴对齐包围盒,用于包围物体
+
+	KDTree   KD树，用于光线追踪加速，例如在场景中渲染三角网格建模的物体，轻易就会有几十万个
+		 三角片，遍历求交是不现实的
+
+2.3 Primitive     物体库
+
+	Material  材质类，包含物体色彩，反射、折射、漫反射、镜面漫反射的百分比，材质贴图等属性
+
+	Collide   碰撞体类，用于保存光线与场景中的物体求交的结果
+
+	Primitive 场景物体的基类,子类需要实现与光线求交的Intersect，获取包围盒GetAABB 重心GetBarycentre
+
+	Sphere    球类，球体
+
+	Triangle  三角形类，3DMAX等建模工具的建模结果都是三角片集合
+
+	Polyhedron 多面体，由三角片的组成，必须建立kd树才能渲染   
+
+2.4 ObjReader     读取库
+
+       	ObjReader  三维物体.obj文件的读取器，读取为场景中的多面体Polyjedron
+
+2.5 Scene	  场景库   
+
+	Camera    摄像机类，有眼睛的位置，面朝方向，镜头长宽，和Color的二维数组用于保存渲染结果
+
+	Light     光源类，有计算光照度，与阴影光线求交方法，有子类AreaLight 面光源。
+
+	Scene     场景类，场景中有光源，物体,kd树，并有最近物体，最近光源等方法
+
+	Parser    简易的语法分析器，用于分析scene.txt的场景数据（光源，物体），得到scene用于被raytracer渲染
+     
+	
+	RayTracer  光线追踪渲染器，用scene中的数据渲染结果，折射，镜面反射，漫反射
