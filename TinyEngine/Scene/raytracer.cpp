@@ -1,6 +1,6 @@
 #include "raytracer.h"
 #include <iostream>
-//#define SHOWPROGRESS
+#define SHOWPROGRESS
 #ifdef SHOWPROGRESS
 #include <Windows.h>
 CRITICAL_SECTION cs;
@@ -73,6 +73,7 @@ void RayTracer::Run(Scene* _scene)
 	result->Initialize(H, W);
 	Vector3 eyePosition = scene->camera->GetEyePosition();
 	int count = 0;
+	int prev = 0;
 	concurrency::parallel_for(0, H, [&](int i)
 	{
 		for (int j = 0; j < W; ++j)
@@ -85,13 +86,20 @@ void RayTracer::Run(Scene* _scene)
 #ifdef SHOWPROGRESS
 		EnterCriticalSection(&cs);
 		++count;
-		system("cls");
-		std::cout << double(count) / double(H)<< std::endl;
-		std::cout << "\r";
+		//每2%输出一次进度
+
+		if (double(count - prev) / H > 0.02)
+		{
+			system("cls");
+			std::cout << double(count) / double(H) *100<<"%"<< std::endl;
+			std::cout << "\r";
+			prev = count;
+		}
 		LeaveCriticalSection(&cs);
 #endif // SHOWPROGRESS
 	}
 	);
+	std::cout << "渲染结束" << endl;
 	scene->camera->Output(result);
 	result->Output("result.bmp");
 	delete result;
