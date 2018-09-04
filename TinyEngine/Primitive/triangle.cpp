@@ -55,6 +55,7 @@ Collide Triangle::Intersect(Ray ray) const
 	//t<0 射线的负方向不相交
 	if (t < EPS)
 		return ans;
+
 	double fInvDet = 1.0f / det;
 	t *= fInvDet;
 	u *= fInvDet;

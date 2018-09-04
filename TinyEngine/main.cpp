@@ -6,6 +6,7 @@
 #include <time.h>
 #include <regex>
 #include <fstream>
+#define  AddRamdomRefrSphere
 int main()
 {
 	e.seed(static_cast<unsigned int>(time(nullptr)));
@@ -18,9 +19,21 @@ int main()
 		line += '\n';
 		toParser += line;
 	}
-
 	Parser parser(move(toParser));
 	shared_ptr<Scene> mainScene = parser.scene();
+#ifdef AddRamdomRefrSphere
+	for (int i = 0; i < 10; ++i)
+	{
+		Vector3 position = Vector3(1.5 + (-5)+RandomRealZeroOne() * 10, 5.5 + (-5)+RandomRealZeroOne() * 10, RandomRealZeroOne() * 10);
+		shared_ptr<Sphere> newSphere(new Sphere(position, RandomRealZeroOne()));
+		newSphere->GetMaterial().color = Color(1, 1, 1);
+		newSphere->GetMaterial().refr = 1;
+		newSphere->GetMaterial().refl = 0;
+		newSphere->GetMaterial().diff = 0;
+		mainScene->AddObject(newSphere);
+	}
+#endif // AddRamdomRefrSphere
+
 	mainScene->BuildKDTree();
 	RayTracer* raytracer = new RayTracer();
 	raytracer->Run(mainScene.get());

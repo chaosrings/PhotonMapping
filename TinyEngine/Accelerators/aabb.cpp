@@ -24,7 +24,7 @@ bool AABB::Hit(Ray ray)
 			}
 		}
 		//ÏÂÃæÊÇSlabMethod
-		if (ray.direction.GetCoord(i) < EPS)
+		if (ray.direction.GetCoord(i) < 0)
 		{
 			planeOut[i] = (minAxisValue - ray.origin.GetCoord(i)) / ray.direction.GetCoord(i);
 			planeIn[i] = (maxAxisValue - ray.origin.GetCoord(i)) / ray.direction.GetCoord(i);

@@ -1,5 +1,7 @@
 #include "raytracer.h"
 #include <iostream>
+//#define TryResample
+
 #define SHOWPROGRESS
 #ifdef SHOWPROGRESS
 #include <Windows.h>
@@ -78,10 +80,25 @@ void RayTracer::Run(Scene* _scene)
 	{
 		for (int j = 0; j < W; ++j)
 		{
+#ifdef TryResample
+			Color color;
+			for (int x = -1; x <= 1; ++x)
+			{
+				for (int y = -1; y <= 1; ++y)
+				{
+					Vector3 emitDirection = scene->camera->Emit(i+x/3, j+y/3).GetUnitVector();
+					color += RayTracing(Ray(eyePosition, emitDirection), 0);
+				}
+			}
+			color /= 9;;
+			scene->camera->SetColor(i, j, color.Confine());
+#endif // TryResample
+#ifndef TryResample
 			Color color;
 			Vector3 emitDirection = scene->camera->Emit(i, j).GetUnitVector();
 			color += RayTracing(Ray(eyePosition, emitDirection), 0);
 			scene->camera->SetColor(i, j, color.Confine());
+#endif // !TryResample
 		}
 #ifdef SHOWPROGRESS
 		EnterCriticalSection(&cs);
